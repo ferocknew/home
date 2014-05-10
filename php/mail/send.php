@@ -301,6 +301,50 @@ class MySendMail {
 
 }
 
+function get_url_content($url) {
+	$user_agent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)";
+	$ch = curl_init();
+	// var_dump($ch);
+	// exit;
+	//curl_setopt ($ch, CURLOPT_PROXY, $proxy);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	//设置要访问的IP
+	curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+	//模拟用户使用的浏览器
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	// 使用自动跳转
+	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	//设置超时时间
+	curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+	// 自动设置Referer
+	// curl_setopt ($ch, CURLOPT_COOKIEJAR, 'c:\cookie.txt');
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	//显示返回的HEAD区域的内容
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	// curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	if ($result !== FALSE) {
+		return $result;
+		// return TRUE;
+	} else {
+		logResult(curl_error($ch));
+		exit ;
+		// return FALSE;
+	}
+}
+
+/* 下面的网址改成你要监控的网址 */
+$host = 'http://wiki.ferock.net/s.php';
+/* 下面的ludou.org改成你的网站首页源代码中的一段特殊字符串 */
+$find = 'ok';
+if (strpos(get_url_content($host), $find) !== FALSE) {
+	logResult("网站正常，访问地址是：" . $host);
+} else {
+	logResult("【ERR】无法访问，地址是：" . $host);
+}
+exit ;
+
 /**************************** Test ***********************************/
 $mail = new MySendMail();
 $mail -> setServer("smtp.qq.com", "ferock@qq.com", "fer1234567");
@@ -308,3 +352,18 @@ $mail -> setFrom("ferock@qq.com");
 $mail -> setReceiver("ferock@gmail.com");
 $mail -> setMailInfo("test", "<b>test</b>");
 $mail -> sendMail();
+
+/**
+ * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
+ * 注意：服务器需要开通fopen配置
+ * @param $word 要写入日志里的文本内容 默认值：空值
+ */
+function logResult($word = '', $logFile = '') {
+	if (empty($logFile))
+		$logFile = dirname(__FILE__) . '/log.txt';
+	$fp = fopen($logFile, "a");
+	flock($fp, LOCK_EX);
+	fwrite($fp, "[log Time]:" . date("Y-m-d H:i:s") . " : " . $word . "\n");
+	flock($fp, LOCK_UN);
+	fclose($fp);
+}
