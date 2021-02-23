@@ -65,7 +65,7 @@ s.parentNode.insertBefore(hm, s);
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="./" class="profilepic">
-			<img src="https://bsn.ferock.net:8088/kodexplorer/index.php?user/publicLink&amp;fid=c394VRz4yb4u3PWalxNXM_hVeXuNu9UPyTSytW4JF9fLcMwdsQtzS4ZJAaYFYABCE2-pCU74W_O7rNC41tx2vgPF75C3eKDU2D9i_ctJtHM8sTsUuTY&amp;file_name=/%E5%A4%B4%E5%83%8F_%E5%88%98%E6%B5%B7%E7%8C%AB.jpg" class="js-avatar">
+			<img src="https://ipfs.jbb.one/ipfs/QmfBPicNLsNZwJM9NhnJ1RpBUWMDjJ6jx9ZT4HYumKtFY8/%E5%A4%B4%E5%83%8F_%E5%88%98%E6%B5%B7%E7%8C%AB.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="./">Jonah.Fu</a></h1>
@@ -138,7 +138,7 @@ s.parentNode.insertBefore(hm, s);
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="https://bsn.ferock.net:8088/kodexplorer/index.php?user/publicLink&amp;fid=c394VRz4yb4u3PWalxNXM_hVeXuNu9UPyTSytW4JF9fLcMwdsQtzS4ZJAaYFYABCE2-pCU74W_O7rNC41tx2vgPF75C3eKDU2D9i_ctJtHM8sTsUuTY&amp;file_name=/%E5%A4%B4%E5%83%8F_%E5%88%98%E6%B5%B7%E7%8C%AB.jpg" class="js-avatar">
+				<img src="https://ipfs.jbb.one/ipfs/QmfBPicNLsNZwJM9NhnJ1RpBUWMDjJ6jx9ZT4HYumKtFY8/%E5%A4%B4%E5%83%8F_%E5%88%98%E6%B5%B7%E7%8C%AB.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">Jonah.Fu</h1>
@@ -209,6 +209,323 @@ s.parentNode.insertBefore(hm, s);
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-群晖nas的备份小记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/%E7%BE%A4%E6%99%96nas%E7%9A%84%E5%A4%87%E4%BB%BD%E5%B0%8F%E8%AE%B0/">群晖 nas 的备份小记 —— Cloud Sync、Cloud Station Backup</a>
+    </h1>
+  
+
+        
+        <a href="/%E7%BE%A4%E6%99%96nas%E7%9A%84%E5%A4%87%E4%BB%BD%E5%B0%8F%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2018-02-28T03:42:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://www.synology.com/helpfile/help/DSM/6.1/dsm/images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg" alt="https://www.synology.com/helpfile/help/DSM/6.1/dsm/images/Backup/1x/Backup/back_up_your_data_on_synology_nas_to_ensure_data_security.jpg"></p>
+<blockquote>
+<p>文章中部分内容参考：<a href="https://post.smzdm.com/p/545304/" target="_blank" rel="noopener">https://post.smzdm.com/p/545304/</a></p>
+</blockquote>
+<p>群晖的 nas 上进行数据备份的方式有很多种。从数据的目的地到备份地分为：</p>
+<ol>
+<li>Cloud Station Backup （本地计算机 —&gt; NAS）</li>
+<li>Hyper Backup（NAS —&gt; 异地灾备）</li>
+</ol>
+<p>另外还有一个 Cloud Sync，是同步功能（本质上并不是备份）。先提供以上内容的群晖官方 url：</p>
+<ol>
+<li>Cloud Station Backup：<a href="https://www.synology.com/zh-cn/knowledgebase/DSM/help/CloudStationBackup/cloudstationbackup" target="_blank" rel="noopener">https://www.synology.com/zh-cn/knowledgebase/DSM/help/CloudStationBackup/cloudstationbackup</a></li>
+<li>Hyper Backup：<a href="https://www.synology.cn/zh-cn/dsm/feature/hyper_backup" target="_blank" rel="noopener">https://www.synology.cn/zh-cn/dsm/feature/hyper_backup</a></li>
+<li>Cloud Sync：<a href="https://www.synology.com/zh-cn/knowledgebase/DSM/help/CloudSync/cloudsync" target="_blank" rel="noopener">https://www.synology.com/zh-cn/knowledgebase/DSM/help/CloudSync/cloudsync</a></li>
+</ol>
+<h3 id="Cloud-Sync"><a href="#Cloud-Sync" class="headerlink" title="Cloud Sync"></a>Cloud Sync</h3><p>就像上文提及的，Cloud Sync 本质上并不是备份，而是一种同步工具。非官方套件的同步工具还有：syncthing （你可以在这里 <a href="https://synocommunity.com/packages" target="_blank" rel="noopener">https://synocommunity.com/packages</a> 找到），以及Resilio Sync（前身是 BTsync，你可以在这里找到：<a href="https://help.resilio.com/hc/en-us/articles/206664850" target="_blank" rel="noopener">https://help.resilio.com/hc/en-us/articles/206664850</a> ） 。</p>
+<p>关于同步盘，这里就不多展开体验上的说明，只总结一下使用下来的心得。<br>最新版本的 DSM 下 Cloud Sync 支持的清单如下：</p>
+<ul>
+<li>Alibaba Cloud Object Storage Service (阿里云 OSS)</li>
+<li>Amazon Drive</li>
+<li>Amazon S3 兼容云服务（Amazon S3、hicloud S3 和 SFR NAS Backup）</li>
+<li>Backblaze B2</li>
+<li>百度云</li>
+<li>Box</li>
+<li>Dropbox（包括 Dropbox for Business）</li>
+<li>Google Cloud Storage</li>
+<li>Google Drive（包括 Google Drive for Work）</li>
+<li>HiDrive</li>
+<li>hubiC</li>
+<li>MegaFon MegaDisk</li>
+<li>Microsoft OneDrive（包括 OneDrive for Business，这个超级棒！）<img src="https://res.smzdm.com/images/emotions/64.png" alt="https://res.smzdm.com/images/emotions/64.png"></li>
+<li>Microsoft Azure</li>
+<li>OpenStack Swift 兼容云服务（IBM SoftLayer、RackSpace、RackSpace UK）</li>
+<li>腾讯云对象存储 (COS)</li>
+<li>WebDAV</li>
+<li>Yandex Disk</li>
+</ul>
+<h4 id="划重点"><a href="#划重点" class="headerlink" title="划重点"></a>划重点</h4><ol>
+<li>阿里云 oss 和腾讯云 cos 的支持，配合对应的CDN 服务，可以轻松搭建一些特殊的外网服务（虽然对于个人用户没什么卵用）。</li>
+<li>使用阿里云 oss 请注意流量的坑。</li>
+<li>腾讯云 cos 有免费配额，较阿里云靠谱多。</li>
+</ol>
+<p><img src="https://s1.ax1x.com/2018/02/28/9D9fT1.png" alt="https://s1.ax1x.com/2018/02/28/9D9fT1.png"><br>来源url：<a href="https://cloud.tencent.com/document/product/436/6240" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/436/6240</a></p>
+<ol start="4">
+<li>百度云为国内唯一支持的云盘，但是传输速度坑爹，单个文件传输在 100k 以内，升级成超级会员（普通会员没卵用）也好不到哪儿去。</li>
+<li>国内支持webDAV 的网盘为坚果云，免费配额如下，基本属于不可用状态。</li>
+</ol>
+<p><img src="https://s1.ax1x.com/2018/02/28/9DCC6g.png" alt="https://s1.ax1x.com/2018/02/28/9DCC6g.png"><br>来源url：<a href="https://www.jianguoyun.com/s/pricing" target="_blank" rel="noopener">https://www.jianguoyun.com/s/pricing</a></p>
+<ol start="6">
+<li>Dropbox、谷歌系列服务均需nas 本身走科学上网，可视为被阉割。</li>
+<li>OneDrive 个人服务配置的时候需要科学上网，使用不需要，但速度感人，比百度好一点点。</li>
+<li>OneDrive 商业版速度可以跑满带宽，楼主有价格便宜的渠道可以买到，这个点个赞。</li>
+<li>Box 为小众国外网盘，按下不表。</li>
+</ol>
+<h4 id="使用注意"><a href="#使用注意" class="headerlink" title="使用注意"></a>使用注意</h4><p>双向同步是默认选项，其实网盘同步本质并不是用来做备份的。如果一定要用来做备份，请选择“仅上传本地更改”，但依然会有奇怪的逻辑发生。因为在使用网盘同步工具的时候，当你删除同步目录里某个文件，那网盘上的文件也会被删除（这属于本地更改的一种情况），如果这个操作是你的误操作于是文件就没有了。。。。<img src="https://res.smzdm.com/images/emotions/78.png" alt="https://res.smzdm.com/images/emotions/78.png"></p>
+<p>这叫什么狗屁备份？？？！！！<img src="https://res.smzdm.com/images/emotions/97.png" alt="https://res.smzdm.com/images/emotions/97.png"><br><img src="https://s1.ax1x.com/2018/02/28/9DCacD.png" alt="https://s1.ax1x.com/2018/02/28/9DCacD.png"></p>
+<p>所以，并不建议使用此工具进行所谓的“备份”。<br>另，如果希望避免泄密门的发生，请勾选“数据加密”，并保管好数据秘钥（密码），上传到网盘的文件将会使用 AES 加密这样就不担心第三方偷窥你的文件了。弊端，那也无法对网盘上已加密过的文件进行分享操作，因为分享出去的文件为不可用的。</p>
+<h3 id="Cloud-Station-Backup"><a href="#Cloud-Station-Backup" class="headerlink" title="Cloud Station Backup"></a>Cloud Station Backup</h3><p>先参考一下，什么值得买的一篇文章 <a href="https://post.smzdm.com/p/545304/。" target="_blank" rel="noopener">https://post.smzdm.com/p/545304/。</a><br>里面有一张图（分辨率有点低 <img src="https://res.smzdm.com/images/emotions/44.png" alt="https://res.smzdm.com/images/emotions/44.png">）：</p>
+<p><img src="https://10.via0.com/ipfs/QmRaRSuyajUQ9L5Cv21ofLpE3TyU3ojEKP4NR4v1B1X64o/58d966574bfa92500.jpg_e600.jpg" alt="https://10.via0.com/ipfs/QmRaRSuyajUQ9L5Cv21ofLpE3TyU3ojEKP4NR4v1B1X64o/58d966574bfa92500.jpg_e600.jpg"></p>
+<p>本地计算机的文件备份，很多非 macos 的同学都很羡慕 mac 下的 Time Machion。</p>
+<p><img src="https://support.apple.com/library/APPLE/APPLECARE_ALLGEOS/Product_Help/en_US/PUBLIC_USERS/PL124/S0100_TimeMachine.png" alt="https://support.apple.com/library/APPLE/APPLECARE_ALLGEOS/Product_Help/en_US/PUBLIC_USERS/PL124/S0100_TimeMachine.png"><br>apple 官方地址：<a href="https://support.apple.com/zh-cn/HT201250" target="_blank" rel="noopener">https://support.apple.com/zh-cn/HT201250</a></p>
+<p>群晖的 Cloud Station Backup 可以为 windows 、 linux 的同学提供和 macos 下的 Time Machion 类似的功能（几乎 99%，只是不能备份系统配置）。</p>
+<blockquote>
+<p>群晖Cloud Station Backup就是你的时间胶囊，实时、增量地备份你的文件，带你回到你想要的任何一个时间点。不同于传统的定时备份，Cloud Station Backup以版本更动为备份机制，不但支持高达32个历史版本备份，还能够智能的保留最重要的版本，并且只备份新增的数据，优化存储空间和系统效能。此外，你还可以依据文件类型、名称或大小等条件，创立精准的文件备份方案。</p>
+</blockquote>
+<p>我们来操作一下，首先，在群晖DSM套件中心下载Cloud Station Server（或者 Driver 套件）——一个统一的管理平台，能够让你一览所有同步任务和设备。</p>
+<p><img src="https://10.via0.com/ipfs/QmPYiALuoszEEnF8eDe8srvtrA3vioCHUCoJgamufDQeob/wKiom1c9Gj-DohDaAAOk1goql48803.png-wh_600x-s_1826121925.png" alt="https://10.via0.com/ipfs/QmPYiALuoszEEnF8eDe8srvtrA3vioCHUCoJgamufDQeob/wKiom1c9Gj-DohDaAAOk1goql48803.png-wh_600x-s_1826121925.png"></p>
+<p>群晖的电脑备份方案Cloud Station Backup只需3步就能完成：</p>
+<h4 id="第一步：将Cloud-Station-Backup下载到你的PC上。"><a href="#第一步：将Cloud-Station-Backup下载到你的PC上。" class="headerlink" title="第一步：将Cloud Station Backup下载到你的PC上。"></a>第一步：将Cloud Station Backup下载到你的PC上。</h4><h4 id="第二步：运行Cloud-Station-Backup，输入群晖QuickConnect-ID及用户名与密码后与NAS完成连接。"><a href="#第二步：运行Cloud-Station-Backup，输入群晖QuickConnect-ID及用户名与密码后与NAS完成连接。" class="headerlink" title="第二步：运行Cloud Station Backup，输入群晖QuickConnect ID及用户名与密码后与NAS完成连接。"></a>第二步：运行Cloud Station Backup，输入群晖QuickConnect ID及用户名与密码后与NAS完成连接。</h4><p>这里需要说明的是，群晖QuickConnect服务能够穿透内网，不需要设定路由端口转发(不过速度感人，本人不用这个)，让你轻松的远程读取NAS里的文件，是群晖非常实用的功能之一。</p>
+<p><img src="https://10.via0.com/ipfs/QmNy6KY6mxc4uwacRteCBfekrCiN39wt8bE3b1quosYfoK/wKiom1c9GovRVPTrAAHa9ePZjHk672.png-wh_600x-s_1571756288.png" alt="https://10.via0.com/ipfs/QmNy6KY6mxc4uwacRteCBfekrCiN39wt8bE3b1quosYfoK/wKiom1c9GovRVPTrAAHa9ePZjHk672.png-wh_600x-s_1571756288.png"></p>
+<h4 id="第三步：选择PC本地的备份来源和群晖NAS里的备份目的地即可"><a href="#第三步：选择PC本地的备份来源和群晖NAS里的备份目的地即可" class="headerlink" title="第三步：选择PC本地的备份来源和群晖NAS里的备份目的地即可"></a>第三步：选择PC本地的备份来源和群晖NAS里的备份目的地即可</h4><p><img src="https://10.via0.com/ipfs/QmdroToagKpTndnEq3k4dmBpkRHTibd6mZc375pWup4apw/wKioL1c9G5LA0FhqAAIfyfyFObY265.png-wh_600x-s_133326417.png" alt="https://10.via0.com/ipfs/QmdroToagKpTndnEq3k4dmBpkRHTibd6mZc375pWup4apw/wKioL1c9G5LA0FhqAAIfyfyFObY265.png-wh_600x-s_133326417.png"></p>
+<p><img src="https://10.via0.com/ipfs/QmXpe4WfMaXbUDQnptHDWhnQqUPxRM4Ym8yiVXXtYM4sWh/wKiom1c9GsOycGLwAAHfGxbABF8405.png-wh_600x-s_2195247940.png" alt="https://10.via0.com/ipfs/QmXpe4WfMaXbUDQnptHDWhnQqUPxRM4Ym8yiVXXtYM4sWh/wKiom1c9GsOycGLwAAHfGxbABF8405.png-wh_600x-s_2195247940.png"></p>
+<p>在开始“备份”之前，考虑到一台NAS往往多人使用，因此，你可以将备份目标设置为只读，这样的话，其他访问NAS的电脑将无法修改。</p>
+<p><img src="https://10.via0.com/ipfs/Qmch5DUtRWVEWANmmuCxz8rSRivdzJrGdKUixHa1JPrS1w/wKiom1c9GtzjU0OnAAIYaSJwm3E636.png-wh_600x-s_1475725714.png" alt="https://10.via0.com/ipfs/Qmch5DUtRWVEWANmmuCxz8rSRivdzJrGdKUixHa1JPrS1w/wKiom1c9GtzjU0OnAAIYaSJwm3E636.png-wh_600x-s_1475725714.png"></p>
+<p>接下来的工作，就是等待备份的完成。初次备份，可能需要的时间较长，不过之后的备份就快上许多，因为只备份新增或是修改的数据。</p>
+<p><img src="https://10.via0.com/ipfs/Qmeq785DDic4iLAonDX2MLYXUgW8ZefUNLzeNCGkvAyVY2/wKioL1c9G9vTcj1PAAIezsEHuhE619.png-wh_600x-s_53202760.png" alt="https://10.via0.com/ipfs/Qmeq785DDic4iLAonDX2MLYXUgW8ZefUNLzeNCGkvAyVY2/wKioL1c9G9vTcj1PAAIezsEHuhE619.png-wh_600x-s_53202760.png"></p>
+<p>多重文件保护，群晖智能备份优化存储空间</p>
+<p>正确的备份需要对每一次文档的改变做好记录，避免因为误操作导致文件删除无法恢复的情况，因此，在Cloud Station Backup中，你可以通过“备份规则”的设置，勾选”当删除原文件夹中的文件时，不要删除NAS备份文件夹中的文件“,避免因本地误删除带来备份文件的丢失。</p>
+<p><img src="https://10.via0.com/ipfs/QmPdhrgapWh8htzEW2pKJAmMRkQB3izULGPUyJGaqftgqu/wKiom1c9GxSBOn2IAAFbyWFXCcs879.jpg-wh_600x-s_1939247655.jpg" alt="https://10.via0.com/ipfs/QmPdhrgapWh8htzEW2pKJAmMRkQB3izULGPUyJGaqftgqu/wKiom1c9GxSBOn2IAAFbyWFXCcs879.jpg-wh_600x-s_1939247655.jpg"></p>
+<p>进入Cloud Station Server(总览管理套件)，你可以设定历史版本上限，并且启用Intelliversioning智能版本轮询功能，保留重要的版本并且优化存储空间。</p>
+<p><img src="https://10.via0.com/ipfs/QmYA2ZcH8YEYRcdGjqWSacbgSLmzA9wda9h4yofKMidjvr/wKioL1c9HA_zZgpFAAE6AWVJ22g338.jpg-wh_600x-s_672020994.jpg" alt="https://10.via0.com/ipfs/QmYA2ZcH8YEYRcdGjqWSacbgSLmzA9wda9h4yofKMidjvr/wKioL1c9HA_zZgpFAAE6AWVJ22g338.jpg-wh_600x-s_672020994.jpg"></p>
+<p>当备份工作完成后，你就可以在Cloud Station Server中查看或取消备份任务，浏览文件的历史版本，回复需要的文件。</p>
+<p><img src="https://10.via0.com/ipfs/QmTAUcX9MqS83ZfE8b6uc6wX8TMxhx8SJRTYnbi1sQWMbH/wKiom1c9G2DgrFDeAAGkZX98xLM108.jpg-wh_600x-s_486838822.jpg" alt="https://10.via0.com/ipfs/QmTAUcX9MqS83ZfE8b6uc6wX8TMxhx8SJRTYnbi1sQWMbH/wKiom1c9G2DgrFDeAAGkZX98xLM108.jpg-wh_600x-s_486838822.jpg"></p>
+<p>每个用户对于资料的保管有不同的偏好，有人不备份，有人活在云端，也有人喜欢Cloud Station Backup这种可靠的备份方式。这个套件就是给误操作一个吃“后悔药”的机会。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">互联网</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">群晖</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">nas</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">备份</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网盘</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/%E7%BE%A4%E6%99%96nas%E7%9A%84%E5%A4%87%E4%BB%BD%E5%B0%8F%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SynologyNAS安装Transmission攻略" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/SynologyNAS%E5%AE%89%E8%A3%85Transmission%E6%94%BB%E7%95%A5/">Synology NAS 安装 Transmission 攻略</a>
+    </h1>
+  
+
+        
+        <a href="/SynologyNAS%E5%AE%89%E8%A3%85Transmission%E6%94%BB%E7%95%A5/" class="archive-article-date">
+  	<time datetime="2018-02-07T03:57:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然群晖DSM自带的Download Station的功能已经做的比较完善了,但是本人是Transmission的忠实用户,从09年接触到NAS开始就一直在使用。Transmission虽然有缺点,也有它自己的特点,比如可以按时间设置不同限速,能在Transmission GUI上分别显示不同PT站点的文件等。</p>
+<h3 id="一-在群晖NAS上安装Transmission"><a href="#一-在群晖NAS上安装Transmission" class="headerlink" title="一. 在群晖NAS上安装Transmission"></a>一. 在群晖NAS上安装Transmission</h3><p>闲话不多说,下面开始介绍在群晖NAS上安装Transmission的方法。</p>
+<p>登录到DSM—“套件中心”—“设置”—“套件来源”—点击“新增”。<br>在弹出的界面中填入以下地址,并确定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;packages.synocommunity.com&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>在套件中心中选择“社群”,这里的套件都是刚才添加的网址提供的第三方套件,找到“Transmission”套件。点击“安装”后,套件中心开始下载,下载成功后会弹出安装提示,全部默认就好了。<br>这里有一个小提示：默认是安装到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;volume1&#x2F;Download&#x2F;</span><br></pre></td></tr></table></figure>
+<p>目录，在“控制面板” – “共享文件夹” 内请先添加此目录，并保证 TS 能正常启动以后，再修改默认下载地址，也可以把这个目录删除。没有此目录，TS 有大概率启动失败。</p>
+<p>安装成功后就可以通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;NAS IP orDDNS:9091&#x2F;transmission&#x2F;web&#x2F;</span><br></pre></td></tr></table></figure>
+<p>访问到transmission了。</p>
+<h3 id="二-高阶应用"><a href="#二-高阶应用" class="headerlink" title="二. 高阶应用"></a>二. 高阶应用</h3><h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>配置文件路径，视 ts 安装在第几个磁盘空间而定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;volume1&#x2F;@appstore&#x2F;transmission&#x2F;var&#x2F;settings.json</span><br></pre></td></tr></table></figure>
+
+<p>配置文件参考内容</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"alt-speed-down"</span>: <span class="number">50</span>,</span><br><span class="line">    <span class="string">"alt-speed-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"alt-speed-time-begin"</span>: <span class="number">540</span>,</span><br><span class="line">    <span class="string">"alt-speed-time-day"</span>: <span class="number">127</span>,</span><br><span class="line">    <span class="string">"alt-speed-time-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"alt-speed-time-end"</span>: <span class="number">1020</span>,</span><br><span class="line">    <span class="string">"alt-speed-up"</span>: <span class="number">50</span>,</span><br><span class="line">    <span class="string">"bind-address-ipv4"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="string">"bind-address-ipv6"</span>: <span class="string">"::"</span>,</span><br><span class="line">    <span class="string">"blocklist-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"blocklist-url"</span>: <span class="string">"http://www.example.com/blocklist"</span>,</span><br><span class="line">    <span class="string">"cache-size-mb"</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="string">"dht-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// 默认下载路径，之前说的路径，在这里就能修改了</span></span><br><span class="line">    <span class="string">"download-dir"</span>: <span class="string">"/volume1/homes/admin/xxxxxxx"</span>,</span><br><span class="line">    <span class="string">"download-queue-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"download-queue-size"</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="string">"encryption"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"idle-seeding-limit"</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">"idle-seeding-limit-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="comment">// 默认下载缓存路径，建议和 下载路径 配置成一样</span></span><br><span class="line">    <span class="string">"incomplete-dir"</span>: <span class="string">"/volume1/homes/admin/xxxxxxx"</span>,</span><br><span class="line">    <span class="comment">// 这里需要配置成 true</span></span><br><span class="line">    <span class="string">"incomplete-dir-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"lpd-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"message-level"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"peer-congestion-algorithm"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"peer-id-ttl-hours"</span>: <span class="number">6</span>,</span><br><span class="line">    <span class="string">"peer-limit-global"</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="string">"peer-limit-per-torrent"</span>: <span class="number">50</span>,</span><br><span class="line">    <span class="string">"peer-port"</span>: <span class="number">51413</span>,</span><br><span class="line">    <span class="string">"peer-port-random-high"</span>: <span class="number">65535</span>,</span><br><span class="line">    <span class="string">"peer-port-random-low"</span>: <span class="number">49152</span>,</span><br><span class="line">    <span class="string">"peer-port-random-on-start"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"peer-socket-tos"</span>: <span class="string">"default"</span>,</span><br><span class="line">    <span class="string">"pex-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"pidfile"</span>: <span class="string">"/usr/local/transmission/var/transmission.pid"</span>,</span><br><span class="line">    <span class="string">"port-forwarding-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"preallocation"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"prefetch-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"queue-stalled-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"queue-stalled-minutes"</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">"ratio-limit"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"ratio-limit-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"rename-partial-files"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"rpc-authentication-required"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"rpc-bind-address"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="string">"rpc-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"rpc-password"</span>: <span class="string">" "</span>,</span><br><span class="line">    <span class="string">"rpc-port"</span>: <span class="number">9091</span>,</span><br><span class="line">    <span class="string">"rpc-url"</span>: <span class="string">"/transmission/"</span>,</span><br><span class="line">    <span class="string">"rpc-username"</span>: <span class="string">" "</span>,</span><br><span class="line">    <span class="string">"rpc-whitelist"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="string">"rpc-whitelist-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"scrape-paused-torrents-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"script-torrent-done-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"script-torrent-done-filename"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="string">"seed-queue-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"seed-queue-size"</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="string">"speed-limit-down"</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="string">"speed-limit-down-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"speed-limit-up"</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="string">"speed-limit-up-enabled"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"start-added-torrents"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"trash-original-torrent-files"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"umask"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">"upload-slots-per-torrent"</span>: <span class="number">14</span>,</span><br><span class="line">    <span class="string">"utp-enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// 默认种子监视路径</span></span><br><span class="line">    <span class="string">"watch-dir"</span>: <span class="string">"/volume1/homes/admin/xxxxxx"</span>,</span><br><span class="line">    <span class="comment">// 如果希望开启 种子监视 功能，这里需要配置成 true</span></span><br><span class="line">    <span class="string">"watch-dir-enabled"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件说明，来源网址：<a href="http://yysfire.github.io/linux/transmission-setting-file.html" target="_blank" rel="noopener">http://yysfire.github.io/linux/transmission-setting-file.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">&quot;alt-speed-up&quot;: 500, #计划时段上传限速值</span><br><span class="line">&quot;alt-speed-down&quot;: 500, #计划时段下载限速值</span><br><span class="line">&quot;alt-speed-enabled&quot;: false,</span><br><span class="line">&quot;alt-speed-time-begin&quot;: 540,</span><br><span class="line">&quot;alt-speed-time-day&quot;: 127,</span><br><span class="line">&quot;alt-speed-time-enabled&quot;: true, #启用计划工作，为false时，以上计划配置则不生效</span><br><span class="line">&quot;alt-speed-time-end&quot;: 420, #计划结束时间，为零点到开始时间的分钟数，比如7:00就是7*60&#x3D;420。另外，该时间是用的GMT时间，即北京时间-8小时。比如你计划北京时间7点30分开始，这个数字应该是（7-8+24）*60+30&#x3D;1410</span><br><span class="line">&quot;bind-address-ipv4&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">&quot;bind-address-ipv6&quot;: &quot;::&quot;,</span><br><span class="line">&quot;blocklist-enabled&quot;: true,</span><br><span class="line">&quot;blocklist-updates-enabled&quot;: false,</span><br><span class="line">&quot;blocklist-url&quot;: &quot;http:&#x2F;&#x2F;www.example.com&#x2F;blocklist&quot;,</span><br><span class="line">&quot;cache-size-mb&quot;: 4, #缓存大小，以MB为单位，建议设大一些，避免频繁读写硬盘而伤硬盘，建议设为内存大小的1&#x2F;6～1&#x2F;4</span><br><span class="line">&quot;compact-view&quot;: false,</span><br><span class="line">&quot;dht-enabled&quot;: false, #关闭DHT（不通过tracker寻找节点）功能，不少PT站的要求，但BT下载设置为true会使得下载更好</span><br><span class="line">&quot;download-dir&quot;: &quot;&#x2F;home&#x2F;yys&#x2F;Downloads&quot;, #下载的内容存放的目录</span><br><span class="line">&quot;download-queue-enabled&quot;: true,</span><br><span class="line">&quot;download-queue-size&quot;: 5,</span><br><span class="line">&quot;encryption&quot;: 1, #0&#x3D;不加密，1&#x3D;优先加密，2&#x3D;必须加密</span><br><span class="line">&quot;idle-seeding-limit&quot;: 30,</span><br><span class="line">&quot;idle-seeding-limit-enabled&quot;: false,</span><br><span class="line">&quot;incomplete-dir&quot;: &quot;&#x2F;home&#x2F;yys&#x2F;Downloads&quot;,</span><br><span class="line">&quot;incomplete-dir-enabled&quot;: false,</span><br><span class="line">&quot;inhibit-desktop-hibernation&quot;: true,</span><br><span class="line">&quot;lpd-enabled&quot;: false, #禁用LDP（本地节点发现，用于在本地网络寻找节点）,不少PT站的要求</span><br><span class="line">&quot;main-window-height&quot;: 500,</span><br><span class="line">&quot;main-window-is-maximized&quot;: 0,</span><br><span class="line">&quot;main-window-width&quot;: 615,</span><br><span class="line">&quot;main-window-x&quot;: 337,</span><br><span class="line">&quot;main-window-y&quot;: 211,</span><br><span class="line">&quot;message-level&quot;: 2,</span><br><span class="line">&quot;open-dialog-dir&quot;: &quot;&#x2F;home&#x2F;yys&#x2F;\u684c\u9762&quot;,</span><br><span class="line">&quot;peer-congestion-algorithm&quot;: &quot;&quot;,</span><br><span class="line">&quot;peer-limit-global&quot;: 240, #全局连接数</span><br><span class="line">&quot;peer-limit-per-torrent&quot;: 60, #每个种子最多的连接数</span><br><span class="line">&quot;peer-port&quot;: 51413, #预设的port口</span><br><span class="line">&quot;peer-port-random-high&quot;: 65535,</span><br><span class="line">&quot;peer-port-random-low&quot;: 49152,</span><br><span class="line">&quot;peer-port-random-on-start&quot;: false, #不建议改为true</span><br><span class="line">&quot;peer-socket-tos&quot;: &quot;default&quot;,</span><br><span class="line">&quot;pex-enabled&quot;: false, #禁用PEX（节点交换，用于同已与您相连接的节点交换节点名单）,不少PT站的要求</span><br><span class="line">&quot;port-forwarding-enabled&quot;: true,</span><br><span class="line">&quot;preallocation&quot;: 1, #预分配文件磁盘空间，0&#x3D;关闭，1&#x3D;快速，2&#x3D;完全。建议取1开启该功能，防止下载大半了才发现磁盘不够。取2时，可以减少磁盘碎片，但速度较慢。</span><br><span class="line">&quot;prefetch-enabled&quot;: 1,</span><br><span class="line">&quot;queue-stalled-enabled&quot;: true,</span><br><span class="line">&quot;queue-stalled-minutes&quot;: 30,</span><br><span class="line">&quot;ratio-limit&quot;: 2,</span><br><span class="line">&quot;ratio-limit-enabled&quot;: false,</span><br><span class="line">&quot;rename-partial-files&quot;: true, #在未完成的文件名后添加后缀.part,false&#x3D;禁用</span><br><span class="line">&quot;rpc-authentication-required&quot;: true,</span><br><span class="line">&quot;rpc-bind-address&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">&quot;rpc-enabled&quot;: true,</span><br><span class="line">&quot;rpc-password&quot;: &quot;&#123;c8c083168db9fff40b5136b6d0f3f4a864110a78\&#x2F;oH51JaE&quot;, #web-ui的密码，可直接修改，重新运行或者reload服务的时候会自动被加密</span><br><span class="line">&quot;rpc-port&quot;: 9091, #默认web-ui的port口，可自行更改</span><br><span class="line">&quot;rpc-url&quot;: &quot;&#x2F;transmission&#x2F;&quot;,</span><br><span class="line">&quot;rpc-username&quot;: &quot;transmission&quot;, #默认登入名称</span><br><span class="line">&quot;rpc-whitelist&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">&quot;rpc-whitelist-enabled&quot;: true, #如果你要让其他网段连入，请设false</span><br><span class="line">&quot;scrape-paused-torrents-enabled&quot;: true,</span><br><span class="line">&quot;script-torrent-done-enabled&quot;: false,</span><br><span class="line">&quot;script-torrent-done-filename&quot;: &quot;&#x2F;home&#x2F;yys&quot;,</span><br><span class="line">&quot;seed-queue-enabled&quot;: false,</span><br><span class="line">&quot;seed-queue-size&quot;: 10,</span><br><span class="line">&quot;show-backup-trackers&quot;: true,</span><br><span class="line">&quot;show-extra-peer-details&quot;: false,</span><br><span class="line">&quot;show-filterbar&quot;: true,</span><br><span class="line">&quot;show-notification-area-icon&quot;: false,</span><br><span class="line">&quot;show-options-window&quot;: true,</span><br><span class="line">&quot;show-statusbar&quot;: true,</span><br><span class="line">&quot;show-toolbar&quot;: true,</span><br><span class="line">&quot;show-tracker-scrapes&quot;: true,</span><br><span class="line">&quot;sort-mode&quot;: &quot;sort-by-age&quot;,</span><br><span class="line">&quot;sort-reversed&quot;: false,</span><br><span class="line">&quot;speed-limit-down&quot;: 300, #平时的下载限速</span><br><span class="line">&quot;speed-limit-down-enabled&quot;: true, #启用平时下载限速</span><br><span class="line">&quot;speed-limit-up&quot;: 30, #平时上传限速</span><br><span class="line">&quot;speed-limit-up-enabled&quot;: true, #启用平时上传限速</span><br><span class="line">&quot;start-added-torrents&quot;: false,</span><br><span class="line">&quot;statusbar-stats&quot;: &quot;total-ratio&quot;,</span><br><span class="line">&quot;torrent-added-notification-enabled&quot;: true,</span><br><span class="line">&quot;torrent-complete-notification-enabled&quot;: true,</span><br><span class="line">&quot;torrent-complete-sound-enabled&quot;: true,</span><br><span class="line">&quot;trash-can-enabled&quot;: true,</span><br><span class="line">&quot;trash-original-torrent-files&quot;: false,</span><br><span class="line">&quot;umask&quot;: 18,</span><br><span class="line">&quot;upload-slots-per-torrent&quot;: 14</span><br><span class="line">&quot;utp-enabled&quot;: true, #启用μTP协议</span><br><span class="line">&quot;watch-dir&quot;: &quot;&#x2F;home&#x2F;yys&#x2F;\u4e0b\u8f7d&quot;,</span><br><span class="line">&quot;watch-dir-enabled&quot;: false</span><br></pre></td></tr></table></figure>
+
+<h4 id="web-界面替换"><a href="#web-界面替换" class="headerlink" title="web 界面替换"></a>web 界面替换</h4><p>原始的 web 界面是在太丑了，新的 web 界面下载地址：</p>
+<ul>
+<li>国内： <a href="https://gitee.com/ferock/QunHui-NAS-WenTiDaYi/raw/master/transmission/transmission-control-full.tar.gz" target="_blank" rel="noopener">https://gitee.com/ferock/QunHui-NAS-WenTiDaYi/raw/master/transmission/transmission-control-full.tar.gz</a></li>
+<li>github ：<a href="https://github.com/ronggang/transmission-web-control" target="_blank" rel="noopener">https://github.com/ronggang/transmission-web-control</a></li>
+</ul>
+<p>群晖内的文件路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;volume1&#x2F;@appstore&#x2F;transmission&#x2F;share&#x2F;transmission</span><br></pre></td></tr></table></figure>
+
+<p>将原来的 web 目录 mv 一个新的名字，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /volume1/@appstore/transmission/share/transmission</span><br><span class="line">sudo mv web web.bak</span><br><span class="line">wget https://gitee.com/ferock/QunHui-NAS-WenTiDaYi/raw/master/transmission/transmission-control-full.tar.gz</span><br><span class="line">sudo tar xzvf transmission-control-full.tar.gz</span><br><span class="line">sudo chown transmission:root -R web</span><br></pre></td></tr></table></figure>
+
+<p>一定要对此文件夹进行重新授权，否则 ts 套件没有权限使用这个新的 web 界面。最后重启套件以后，访问 web 界面就可以看到崭新的界面了，提供一个截图作为参考：<br><img src="https://lh6.googleusercontent.com/-7Nhn0M5Kmjk/Ui62mnatTgI/AAAAAAAAAOE/hZlcQiI1Eqo/w1107-h701-no/Transmission+WEB+%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8+0.6+Beta.png" alt="https://lh6.googleusercontent.com/-7Nhn0M5Kmjk/Ui62mnatTgI/AAAAAAAAAOE/hZlcQiI1Eqo/w1107-h701-no/Transmission+WEB+%25E6%258E%25A7%25E5%2588%25B6%25E5%2599%25A8+0.6+Beta.png"></p>
+<p>另外，这个 ui 的“原版UI”那个连接是失效的，处女座就别纠结了。</p>
+<h4 id="端口隐射"><a href="#端口隐射" class="headerlink" title="端口隐射"></a>端口隐射</h4><p>web 界面内可以设置默认对外端口，当然， 配置文件也可以。将此端口映射到公网 IP 上就可以保证 Ts 的下载和上传速度了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;peer-port&quot;: 51413,</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax2x.com/2017/11/07/BiEf2.png" alt="https://s1.ax2x.com/2017/11/07/BiEf2.png"></p>
+<h3 id="docker-上使用-transmission"><a href="#docker-上使用-transmission" class="headerlink" title="docker 上使用 transmission"></a>docker 上使用 transmission</h3><p>并不是每个群晖的型号，都能找到 transmission 的套件，但如果你用的是 x86 架构，那 docker 上的 transmission 也是很好用的。</p>
+<p>打开 docker 搜索 transmission ，我使用的是 <a href="https://hub.docker.com/r/linuxserver/transmission/" target="_blank" rel="noopener">https://hub.docker.com/r/linuxserver/transmission/</a> 。</p>
+<p><img src="https://s1.ax1x.com/2018/02/08/93MwAf.png" alt="https://s1.ax1x.com/2018/02/08/93MwAf.png"></p>
+<p>双击此镜像，选择laster 也就是最新的版本。下载完成以后，就会自动进入添加容器的流程。而需要配置的是以下几项</p>
+<ol>
+<li>文件路径的映射</li>
+</ol>
+<ul>
+<li>/usr/share/transmission/web     # web 界面自定义，可使用此篇文档提及的 web ui 进行管理</li>
+<li>/config # 配置文件目录</li>
+<li>/downloads # 下载文件存放目录，里面有 complete – 已完成的任务存放的位置，incomplete – 正在下载的任务存放的位置</li>
+</ul>
+<blockquote>
+<p>这 3 个路径对应的文件夹，请在 ssh 命令行下赋予 docker 系统用户的所有权，一般 uid 是 1000 或者 911。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R 911:911 ./</span><br></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>端口</li>
+</ol>
+<ul>
+<li>9091 # web 界面访问端口</li>
+<li>51413 # 下载监听端口，需在路由器上做端口映射到公网</li>
+</ul>
+<p>以上配置完成以后，容器就可启动了。另，由于群晖的 docker 执行权限是用那个用户的我不太清楚，所以，这些目录建议给到 766 权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 766 ./</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NAS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">群晖</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Transmission</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/SynologyNAS%E5%AE%89%E8%A3%85Transmission%E6%94%BB%E7%95%A5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-GT赛车" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -238,9 +555,9 @@ s.parentNode.insertBefore(hm, s);
 <h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><h4 id="GT5-序章"><a href="#GT5-序章" class="headerlink" title="GT5 序章"></a>GT5 序章</h4><p><img src="https://img1.doubanio.com/lpic/s28021739.jpg" alt="https://img1.doubanio.com/lpic/s28021739.jpg"></p>
 <h4 id="GT5-美版（港版）"><a href="#GT5-美版（港版）" class="headerlink" title="GT5 美版（港版）"></a>GT5 美版（港版）</h4><p><img src="https://img3.doubanio.com/lpic/s9100281.jpg" alt="https://img3.doubanio.com/lpic/s9100281.jpg"></p>
 <p>GT赛车5》（Gran Turismo 5）是Polyphony Digital制作，SCE发行的《GT赛车》系列的第五代作品。本作是继2007年发行的“序章版”后推出的正式版本。在经过长达六年时间的精雕细琢，投入近1亿美元的开发费用，在经历了一次又一次的延期发售之后，PS3平台上最抢眼的独占赛车游戏《GT赛车5》终于在2010年11月24日于全球同步发售了。本作在《GT赛车5：序章版》的基础上大量强化游戏内容，车辆、赛道、零件均大幅增加。此外本作中的车辆损坏与天气系统都是亮点所在。《GT赛车5》自11月24日上市以来全球销量已达到550万份（截止到12月6日）。本作收录了多达1,000辆赛车，170种精细车模，每辆车都对应内部车损的效果，830辆一般车型。</p>
-<h4 id="GT5-Spec-II-2012"><a href="#GT5-Spec-II-2012" class="headerlink" title="GT5 Spec II (2012)"></a>GT5 Spec II (2012)</h4><p><img src="http://s1.dwstatic.com/group1/M00/B5/02/b502fd478ce3658de7375fd37c8233268.jpg" alt="http://s1.dwstatic.com/group1/M00/B5/02/b502fd478ce3658de7375fd37c8233268.jpg"></p>
+<h4 id="GT5-Spec-II-2012"><a href="#GT5-Spec-II-2012" class="headerlink" title="GT5 Spec II (2012)"></a>GT5 Spec II (2012)</h4><p><img src="https://cf.shopee.tw/file/63b34cb512e4ba20f6cbf0810e8047ea" alt="https://cf.shopee.tw/file/63b34cb512e4ba20f6cbf0810e8047ea"></p>
 <p>《GT赛车5》自2010年11月发售起，即拥有1000台以上车款、70种以上赛道、多彩多姿的游戏模式等压倒性的庞大内容。而发售经过1年后，透过2011年10月的Ver.2.00更新，更达成了全标准车可支援简易驾驶座视点等大型的进化。此外，玩者更可透过当月发售的付费下载内容，为游戏增添魅力十足的车款、赛道、服装道具、以及上色道具等内容。而现在，《GT赛车5 Spec II》中英文合版除了上述2.00更新档案的“完整下载包”外，更在下载卡中追加将于12月21日贩售的“赛车下载包2”，总计有19种车款、2种（5种类）的赛道、90种服装道具、以及100种上色道具等丰富追加内容</p>
-<h4 id="GT5-Spec-III-2013"><a href="#GT5-Spec-III-2013" class="headerlink" title="GT5 Spec III (2013)"></a>GT5 Spec III (2013)</h4><p><img src="http://img.emao.net/news/w/nd/oy/folu.jpg" alt="http://img.emao.net/news/w/nd/oy/folu.jpg"></p>
+<h4 id="GT5-Spec-III-2013"><a href="#GT5-Spec-III-2013" class="headerlink" title="GT5 Spec III (2013)"></a>GT5 Spec III (2013)</h4><p><img src="https://10.via0.com/ipfs/QmPBAHJTCXJRe1fNNxXDRyYuYpsNtD76CT7y5mJjtHb6FE/folu.jpg" alt="https://10.via0.com/ipfs/QmPBAHJTCXJRe1fNNxXDRyYuYpsNtD76CT7y5mJjtHb6FE/folu.jpg"></p>
 <p>Gran Turismo®5（跑车浪漫旅 5）的全新特别版，Gran Turismo®5 2013 Edition将于2012年12月21日面市。本产品将收录GT5发售后至Ver2.00为止的功能更新以及许多超值下载内容。追加内容包括了新车种、赛道、上色道具及赛车装备。这些都是原本另行贩售的DLC产品：完整下载包（包含赛车下载包、赛道下载包、上色道具包和赛车装备包）、赛车下载包2、赛车下载包3、速度测试包、茂木赛车场，其市价总值约新台币980元。本特别版中更收录了Gran Turismo 制作人山内一典先生以及GT学院初代优胜者Lucas Ordonez在纽堡林24小时竞赛所驾驶的Nissan GT-R N24 GT Academy ‘12特别车款。</p>
 <h3 id="外设"><a href="#外设" class="headerlink" title="外设"></a>外设</h3><h4 id="G29-方向盘"><a href="#G29-方向盘" class="headerlink" title="G29 方向盘"></a>G29 方向盘</h4><p>技G29适用于PlayStation4和PlayStation3游戏机的力反馈赛车方向盘。也可在使用罗技游戏软件的PC上运行。</p>
 <p><img src="https://newsimg.dangbei.net/uploads/allimg/151228/15553933H-1.png!0" alt="https://newsimg.dangbei.net/uploads/allimg/151228/15553933H-1.png!0"></p>
@@ -307,14 +624,14 @@ s.parentNode.insertBefore(hm, s);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://images.ifanr.cn/wp-content/uploads/2018/01/lian-cover.jpg" alt="http://images.ifanr.cn/wp-content/uploads/2018/01/lian-cover.jpg"></p>
+        <p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/lian-cover.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/lian-cover.jpg"></p>
 <p>每到年初年末之际，各大公司就开始筹备起了年会。在今年的年会中，不会跳舞的 A 君竟然被分配到了一个舞蹈节目里。</p>
 <p>正在愁眉苦脸之际，A 君在朋友圈里看到了昔日同样四肢不协调的朋友，竟在朋友圈里大秀舞技！</p>
-<p><img src="http://images.ifanr.cn/wp-content/uploads/2018/01/mp11-1.gif" alt="http://images.ifanr.cn/wp-content/uploads/2018/01/mp11-1.gif"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp11-1.gif" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp11-1.gif"></p>
 <p>还有一个可爱的妹子手把手指导！</p>
-<p><img src="http://images.ifanr.cn/wp-content/uploads/2018/01/mp12.gif" alt="http://images.ifanr.cn/wp-content/uploads/2018/01/mp12.gif"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp12.gif" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp12.gif"></p>
 <p>追问之下才知道，原来他并没有请舞蹈老师，而是使用了美拍的「舞蹈跟拍器」功能。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/meipai-1.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/meipai-1.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/meipai-1.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/meipai-1.jpg"></p>
 <p>舞蹈跟拍器，是美拍在 12 月 23 日上线的，国内首款供用户边看边学的线上舞蹈学习功能。有了它，你可以轻松地的学习和录制酷炫舞蹈视频，成为朋友圈里的「舞蹈达人」。</p>
 <p>那么，舞蹈跟拍器对于毫无基础者来说，是否真的那么好用呢？AppSo 下面就来为大家实测一番。</p>
 <h3 id="轻松变身舞蹈达人"><a href="#轻松变身舞蹈达人" class="headerlink" title="轻松变身舞蹈达人"></a>轻松变身舞蹈达人</h3><blockquote>
@@ -323,17 +640,17 @@ s.parentNode.insertBefore(hm, s);
 <p>对于舞蹈来说，同样适用。无论是参加舞蹈课堂，还是在家看视频，要学会跳舞，<strong>首先都要从模仿开始。</strong></p>
 <p>而美拍的「舞蹈跟拍器」则是利用了人的这种本能。让毫无舞蹈基础的「小白」，通过「舞蹈跟拍器」也能变成舞神。</p>
 <p>打开美拍，直接下方的「+」，选择「灵感库」即可进入「舞蹈跟拍器」。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp22.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp22.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp22.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp22.jpg"></p>
 <p>可以看到，「舞蹈跟拍器」里提供丰富的曲库和教学视频。舞种上来看，从韩舞、民族舞甚至是指尖舞都有。而歌曲则涵盖了流行、舞曲和节日等。</p>
 <p>比如《爱你》、《爱你的 365 天》、《简单爱》等则是表白撩妹必杀技；《Jingle Bells》、《铃儿响叮当》等则是节日必备，助兴神器。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/Image-3.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/Image-3.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/Image-3.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/Image-3.jpeg"></p>
 <p>点击任意歌曲，还可以提前预览舞蹈视频内容，和其它用户的跟学效果视频。如果觉得不错，直接点击「使用」就可以开始跟拍学习了！</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp3.gif" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp3.gif"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp3.gif" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp3.gif"></p>
 <p>进入舞蹈跟拍界面后，你会看到自己的镜头位于左上方，而「教学老师」的视频则位于整个背景方。点击下方的「普通」、「快」、「超快」可以调节「教学老师」动作的速度。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp4.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp4.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp4.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp4.jpg"></p>
 <p>如果对舞蹈动作不太熟悉，AppSo 建议你选择「快」或「超快」，在这两个速度下，「教学老师」的动作会被放慢，更容易跟学。选好之后，直接点击下方的「拍摄」就可以开始录制啦！</p>
 <p>在录制的过程中，你只需要模仿「教学老师」的动作即可，录制结束之后，点击提勾，就可以看到你的舞蹈视频啦！</p>
-<p><img src="http://images.ifanr.cn/wp-content/uploads/2018/01/mp4.gif" alt="http://images.ifanr.cn/wp-content/uploads/2018/01/mp4.gif"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp4.gif" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp4.gif"></p>
 <p>看到这里，你可能会有一个疑惑：如果在刚刚的录制中，我选择了「快」或「超快」这两个慢速，我的视频动作还能跟上原本的音乐节拍吗？</p>
 <p>这一点你完全可以放心！即使你前面选择了放慢拍摄，美拍「舞蹈跟拍器」最后生成的视频也会智能地帮你契合原本的音乐节奏，真正做到「让没有任何舞蹈基础的人，也能享受舞蹈带来的乐趣」。</p>
 <h3 id="玩法丰富，你想要的舞美拍都有"><a href="#玩法丰富，你想要的舞美拍都有" class="headerlink" title="玩法丰富，你想要的舞美拍都有"></a>玩法丰富，你想要的舞美拍都有</h3><p>每个人对舞蹈都有不同取向和喜好，而美拍「舞蹈跟拍器」提供了各种类型的舞蹈，包你一定能找的你的 style。</p>
@@ -341,50 +658,50 @@ s.parentNode.insertBefore(hm, s);
 <li>潮流韩舞、民族舞、拉丁舞、肚皮舞</li>
 </ol>
 <p>在 2018 年战略会上，美拍已经与北京嘉禾舞社、RMBCrew、南京 IshowJazzDance 等 14 家国内顶尖舞团正式签约，因此在流行舞这一块的教学也是非常丰富的。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/Image.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/Image.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/Image.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/Image.jpeg"></p>
 <p>目前，已经上线的有潮流韩舞，后续「舞蹈跟拍器」将会广泛适用于美拍社区里的所有舞蹈内容。 也就是说，未来在美拍上街舞、流行舞、肚皮舞、民族舞等丰富多样的舞种，都可以在「舞蹈跟拍器」上直接学。</p>
 <ol start="2">
 <li>手势舞</li>
 </ol>
 <p>手势舞对于完全没有舞蹈基础的朋友来说，更简单、更容易学会，同时也是元旦期间风靡朋友圈的一个玩法。对舞蹈还不熟？不妨先从手势舞开始，小试牛刀。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp15.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp15.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp15.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp15.jpg"></p>
 <ol start="3">
 <li>明星应援舞</li>
 </ol>
 <p>追 idol 的时候，总是由于舞蹈太复杂，没有办法跟跳？美拍「舞蹈跟拍器」中的明星应援舞，可以让你更加细致地学习每一个舞蹈对象，让你的 idol 就是你的 舞蹈老师。</p>
-<p><img src="http://images.ifanr.cn/wp-content/uploads/2018/01/mp5.gif" alt="http://images.ifanr.cn/wp-content/uploads/2018/01/mp5.gif"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp5.gif" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp5.gif"></p>
 <p>张艺兴 sheep 舞</p>
 <h3 id="多款特效，让你秒变嘻哈少年"><a href="#多款特效，让你秒变嘻哈少年" class="headerlink" title="多款特效，让你秒变嘻哈少年"></a>多款特效，让你秒变嘻哈少年</h3><p>觉得自己录出来的视频还是不够酷炫？AppSo 告诉你几个美拍小技巧，帮你变身嘻哈少年。</p>
 <ol>
 <li>魔法自拍<br>在开始录制前，你就可以点击左下方的「魔法自拍」，里面提供了多款有趣的挂件贴纸。</li>
 </ol>
 <p>有可爱的。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp5.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp5.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp5.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp5.jpg"></p>
 <p>酷炫的。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp6.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp6.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp6.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp6.jpg"></p>
 <p>趣味十足的。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp7.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp7.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp7.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp7.jpg"></p>
 <p>觉拍摄的出来的视频太单调了？不如在录制前选几个你喜欢的挂件试一试吧。</p>
 <ol start="2">
 <li>滤镜<br>在录制结束后，视频下方会出现一排滤镜供你挑选，点击即可意见查看效果。可不要小看它，一个好看的滤镜，可以让视频风格有质的飞跃喔。</li>
 </ol>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp8.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp8.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp8.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp8.jpg"></p>
 <ol start="3">
 <li>魔法涂鸦<br>魔法涂鸦可以帮在视频中加入各种可爱酷炫的特效，如爱心、气泡、闪电等，手指按住并拖动你喜欢的涂鸦即可在视频中任一段落加入，十分方便。</li>
 </ol>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp10.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp10.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp10.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp10.jpg"></p>
 <ol start="4">
 <li>嘻哈特效<br>嘻哈特效是美拍提供的一系列具有嘻哈风格的滤镜效果，长按某一个特效即可添加，并且在同一段视频中可以多次添加不同的嘻哈效果。</li>
 </ol>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp12.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp12.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp12.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp12.jpg"></p>
 <p>除此之外，你还可以对视频进行基础的字幕、剪辑等功能。一起来看看 AppSo 实测的视频成果吧！</p>
-<p>视频地址：<br><a href="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/IMG_1961.mp4?_=1" target="_blank" rel="noopener">http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/IMG_1961.mp4?_=1</a></p>
+<p>视频地址：<br><a href="http://s3.ifanr.com/wp-content/uploads/2018/01/IMG_1961.mp4?_=1" target="_blank" rel="noopener">http://s3.ifanr.com/wp-content/uploads/2018/01/IMG_1961.mp4?_=1</a></p>
 <p>是不是很酷炫？现在就下载打开美拍试一试吧，你也可以变身舞蹈达人！</p>
 <h3 id="在教会你跳舞这件事上，美拍是认真的"><a href="#在教会你跳舞这件事上，美拍是认真的" class="headerlink" title="在教会你跳舞这件事上，美拍是认真的"></a>在教会你跳舞这件事上，美拍是认真的</h3><p>在 2017 年 11 月 28 日的美拍 2018 战略发布会上，美拍宣布将投入 5 亿资源、百亿流量，以及美图旗下全矩阵用户资源，启动对美拍女性化生态的重点扶持，并且舞蹈列为其核心内容之一。同时，正式发布了「舞蹈跟拍器」，布局舞蹈垂直领域。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/6DECD108358CC4D1399BA2163E61AE7F38DD6E87_size494_w554_h228.png" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/6DECD108358CC4D1399BA2163E61AE7F38DD6E87_size494_w554_h228.png"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/6DECD108358CC4D1399BA2163E61AE7F38DD6E87_size494_w554_h228.png" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/6DECD108358CC4D1399BA2163E61AE7F38DD6E87_size494_w554_h228.png"></p>
 <p>相对与我们之前推荐过的 QQ 高能舞室、抖音尬舞机，AppSo 认为，美拍的「舞蹈跟拍器」和他们还是有本质的不同。</p>
 <p>QQ 高能舞室和抖音尬舞机更像是线上的「跳舞机」，他们将舞蹈的门槛降到了最低，用户只需进行简单的肢体动作就能完成。但是同时也有不足，你只能在使用产品时能体验到音乐、舞蹈带来的乐趣，这些动作跳过也就忘了，更无从谈后续进一步的深入学习和分享互动。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp13.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2018/01/mp13.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2018/01/mp13.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2018/01/mp13.jpg"></p>
 <p>从左到右分别为美拍「舞蹈跟拍器」、QQ 「高能舞室」、抖音「尬舞机」</p>
 <p>而美拍的「舞蹈跟拍器」从形式上，就更倾向于让你「学会」跳舞。同时，美拍社区内沉淀的大量舞蹈爱好者用户，以及其浓厚的舞蹈氛围文化，能有效地让更多人学会舞蹈。</p>
 <p>在教会你跳舞这件事上，美拍是认真的。</p>
@@ -481,18 +798,18 @@ s.parentNode.insertBefore(hm, s);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://images.ifanr.cn/wp-content/uploads/2017/12/latte-index.jpg" alt="http://images.ifanr.cn/wp-content/uploads/2017/12/latte-index.jpg"></p>
+        <p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/latte-index.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/latte-index.jpg"></p>
 <p>在讨论到经济问题时，GDP、恩格尔系数等概念虽然已经耳熟能详了，但终究是枯燥无趣、且与人们日常生活割裂开的。有些专家为了让经济学知识更加接地气，弄出了不少新的概念。</p>
 <p>比如说《华尔街日报》最近就公布了一组研究数据，是用星巴克的中杯拿铁咖啡来比较不同国家货币的实际购买力。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/starbucks.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/starbucks.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/starbucks.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/starbucks.jpg"></p>
 <p>这个名为“中杯拿铁指数”（Tall Latte Index）的概念其实已经不新鲜了。2004 年的时候，<a href="http://www.economist.com/node/2361072" target="_blank" rel="noopener">《经济学人》就用它来对当时各国的货币汇率进行了比对。</a></p>
 <p>具体的操作是这样的，他们会以美元——这个在国际上流通范围最广的货币作为对比的基准：先把其他国家或地区一杯星巴克中杯拿铁的售价转换为美元，再与美国的售价作对比。如果换算过来的价格高于美国，则说明该地的货币相对美元的汇率被高估了；反之即有被低估的可能。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/latte-index-full.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/latte-index-full.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/latte-index-full.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/latte-index-full.jpg"></p>
 <p>经过这样的计算，本地货币相对美元汇率最被高估的地区是瑞士的苏黎世，一杯星巴克中杯拿铁在那里的售价约为 5.76 美元，比美国纽约市 3.45 美元的基准要高出差不多 67%。紧随其后的是香港、新加坡、上海和布鲁塞尔，按照这个理论，这些地区的货币汇率都被高估了。</p>
 <p>处于明显被低估范畴的有开罗、约翰内斯堡、伊斯坦布尔、墨西哥城等城市，它们之中当地货币相对美元的汇率最高被低估多达 57%。</p>
 <p>有意思的是，在与包括国际清算银行（BIS）、经合组织（OECD）、国际货币基金组织（IMF）等权威机构的分析结果进行比对后，<a href="http://www.businessinsider.com/coffee-makes-a-surprisingly-accurate-analogy-for-currency-trading-2017-12" target="_blank" rel="noopener">这个结论的出入其实并不算大。</a>比如经拿铁指数测算出的加拿大元对美元汇率被低估约 14.8%，权威机构的结果是 10% 左右。</p>
 <p>在星巴克拿铁指数之前，《经济学人》其实还<a href="http://www.economist.com/content/big-mac-index" target="_blank" rel="noopener">推出过一个“巨无霸指数”（Big Mac Index）。</a>原理差不多，只不过是将对比对象换成了麦当劳的巨无霸汉堡，它也因此被称为“汉堡经济学”（Burgernomics）。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/bigmac2017.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/bigmac2017.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/bigmac2017.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/bigmac2017.jpg"></p>
 <p>而这些指数之所以能够具有一定的参考价值，还跟这些选择的对比对象有很大的关系。当麦当劳和星巴克已经逐渐走向全球，他们在世界各地的影响力和供应量都有所保证；由于供应链和制作的工艺环节都差不多，因此可以在某种程度上被视为标准化的产品。</p>
 <p>就像《经济学人》用它们来比对货币汇率一样，很多人还用这些非典型的指标来衡量国家之间的购买力、物价水平等等。</p>
 <p>但需要注意的是，这个算法还是存在一定的缺陷的。尽管已经考虑到了供应链等方面的问题，但这些跨国公司的产品定价还受到税收、商业竞争、市场接受度等因素的影响，因此在使用这些指数的时候，趣味性其实多过准确性。</p>
@@ -598,7 +915,7 @@ s.parentNode.insertBefore(hm, s);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0.jpeg"></p>
+        <p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/0.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/0.jpeg"></p>
 <p>提起暗网，中文的读者对它的印象一般不太好，觉得里面充满了罪恶和犯罪。这些印象基本来自几篇热文，追根溯源，这几篇文章又是一两篇英文文章的改头换面和重新拼接。但是大概因为内容过于猎奇黑暗，给人留下的印象根深蒂固，以至于我在之前的文章提到“暗网更接近于互联网创始者们创造的那个网络”的时候，很多人留言骂我给犯罪分子洗地…看起来暗网在中文里面已经被默认等于罪恶了。</p>
 <p>除此之外，也有很多人读过那些文章之后觉得疑点众多，也问过我这些文章可信度如何，以及暗网到底是什么。</p>
 <p>要回答这个问题，不需要背景知识，只需要逻辑推理即可。总结那些文章的要点，大致是：</p>
@@ -613,9 +930,9 @@ s.parentNode.insertBefore(hm, s);
 <p>从第一篇持这种论调专心猎奇的英文文章开始，作者就搞混了好几个概念，没弄清楚 Darknet、Deep web、Dark web 之间的区别。英文这几个词的样子非常相似，一不小心就会写错，混淆不意外。等变成了中文，情况就更糟糕了，Darknet 和 Dark web 如果按照字面直译，都会被翻译成暗网，没法区分。那些四处抄袭和搬运的作者不知道历史渊源，很容易就把它们当作同一种东西，拼拼凑凑放到同一篇文章里面，这样混淆了之后倒是显得更加骇人听闻，阅读量自然不少，除了并不真实之外几乎没有缺点了。</p>
 <p>在这篇文章里，我来从历史开始，试着来把这些名词的区别、存在的意义、风险说清楚。</p>
 <h3 id="Darknet-暗网"><a href="#Darknet-暗网" class="headerlink" title="Darknet 暗网"></a>Darknet 暗网</h3><p>Darknet 是这三个概念中最广泛一个，历史也最长。它的历史比我们今天使用的商用互联网还长远的多。众所周知，ARPANET 是我们今天使用的互联网的前身，1969 年开通的 ARPANET 实验网络，只是连接了西部的四个大学，见下图：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-4.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-4.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/0-4.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/0-4.jpeg"></p>
 <p>随后 1970 年东西海岸网络连通，一直到 1975 年，才把美国东西南北各家大学和研究机构连起来。在这个过程中，和 ARPANET 并行发展的网络还有很多，这个联网过程实际上是把各个已经存在的局域网按照固定协议连接到一起的过程。有一些没有来得及接入或者因为各种原因不想接入的现存网络，就被人们称作 Darknet，也就是暗网。它最早的含义应该是在 ARPANET 这个主干网络上看不到它们，也连接不到它们。相当于在明面上的主干网络，它就显得“暗”了一些，这里面并无贬义。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-2.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-2.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/0-2.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/0-2.jpeg"></p>
 <p>（图:ARPANET 联网过程，左上角是 1969 年的状态，右下角是 1975 年的状态。）</p>
 <p>随着时间的发展，我们现在使用的互联网席卷世界。全球联网人数逐渐增加，人们开始利用电话线或者有线网络，通过一家商用互联网运营商接入互联网。但在这之外，仍然有很多其他网络存在，比如公司为了降低成本（早期的互联网服务费极其昂贵），自己建立局域网，供公司员工使用。为了方便员工在公司之外使用公司网上的资源，一些公司还设置了基于电话的拨号链接方式。这一样被算作暗网的一部分。</p>
 <p>互联网继续发展，联网成本逐渐下降，永不断网成为可能。这时候设置一个自己的拨号接入系统就不那么必要了，拨号也很麻烦。于是大家开始把公司局域网也链接到了商用互联网上，让员工通过 VPN 等等方式连接到公司内部。基于 VPN 链接起来的虚拟网络，仍然被算作暗网。到今天，一些更小规模的公司已经不再维护自己的办公网络，也不再使用 VPN。他们的办公系统都通过公开的互联网服务组件搭建，比如文档放在网盘，代码放在 Github，沟通使用 Slack 或者干脆省事用微信…到这个阶段，企业应用和个人应用的界限变得模糊，这时候这种企业就不再依赖自己的局域网或者虚拟网了，他们脱离了暗网（Darknet）。</p>
@@ -635,13 +952,13 @@ s.parentNode.insertBefore(hm, s);
 <p>Darknet 这个概念主要强调网络层，Dark web 指的是网络之上的应用。如果 Dark net 对应运营商，Dark web可以对应成互联网服务商。运行在 Darknet 上的服务，哪怕是一个普通页面，也可以算作Dark web。除此之外，Deep web 里面很大一部分服务，也算 Dark web，这三者的关系错综复杂又互相重叠。</p>
 <p>Dark web 的概念可以指很小的应用，小到在自己的 VPS 上装一个 gitlab 服务，和几个朋友共同开发一个业余项目，大到遍布全球的 Tor 洋葱路由，都可以算作 Dark web。更有意思的是人们发明这个概念的时候，从来没想到全球互联网会被切分成几个部分这件事，按照今天的形式看，Dark web 的概念已经超过了发明这个词时候的预期。比如中国大陆用户必须通过某些特殊软件才能访问 Facebook 之类的国外互联网服务，这些服务对于中国用户也可以算作 Dark web。反过来，中国大量服务必须使用手机号注册不允许匿名访问，手机号又必须实名购买，对于其他国家的人来说，没办法用普通方法直接使用这些服务，于是这些服务也可以算 Dark web…</p>
 <p>Dark web如此庞大，足以证明中文中所有关于暗网的妖魔化，对应的都只是 Dark web 中极小的一部分。准确的说，是 Dark web 上的 Tor 洋葱路由这个协议下面的运行的几个网站。在 Dark web 所有运转的服务里，所占流量最大的仍然是 P2P 下载服务，就算在使用 Tor 洋葱路由建立的站点，最知名的应该是盗版种子发源地海盗湾，虽然在一些国家法律里面这也是违法的，但是终究不算太大危害，更谈不上什么黑暗世界。除此之外还有一些赌博服务，以及各大媒体的匿名爆料通道。存在非法交易的网站也存在，通常被叫做“Dark web market”，暗网市场。总体来说，长期使用 Tor 的人数并不多，因为它的速度很慢。除了一些社会活动家和记者，还有一些追求匿名和隐私的普通用户，这些人不是违法服务的提供者也不是受众，这些人是Tor更常见的使用者。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-3.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-3.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/0-3.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/0-3.jpeg"></p>
 <p>（纽约时报在今年 10 月已经正式开通了官方洋葱网络版本，图自：nytimes）</p>
 <p>虽然大部分 Dark web 服务并不追求匿名性，但其中确实有一些专门为在互联网上匿名而设计的工具，Tor是其中最著名的一个。但是就算如此，装一个 Tor 在计算机上开始使用，如果真去进行严重犯罪活动，被执法部门抓获仍然是轻而易举的。要想真正达到匿名，就需要学习专门的用法和一系列严格的规范和设备条件，才有可能做到“相对可靠的匿名”。对于大部分普通用户，仅靠使用 Tor 是几乎不可能真正隐藏身份的。所以就算是暗网市场，上面最常见的交易也就是毒品相关，属于违法活动中比较轻的，交易的产品还以在很多国家已经合法的大麻为主。对于儿童色情这种被西方各国执法机关严厉打击的内容，大部分暗网市场也禁止它存在，这个道理很好理解，毕竟大家都是为了做生意，能做低风险的生意，何必做这种最高风险的生意呢？</p>
 <p>至于暗网上雇佣杀手、绑架贩卖人口之类事情更是都市传说，至今也没什么证据证明他们真的存在。最大的暗网市场“丝绸之路”的创始人已经被美国执法机构抓获，他的罪名里面也没包含这几项。这些犯罪行为在现实世界长期存在，被各种帮派控制，早就有固定的网络和渠道，想来也没必要花这么大力气用这么极客的办法招揽客户和宣传。如果说暗网上的非法生意，除了贩卖毒品、赌博、假证件，比较常见的是欺诈。也就是号称自己拥有杀手或者色情内容，骗人来买。等真有人通过比特币转账了，他们就再也不认账。毕竟大家都是匿名的，谁也找不到谁，骗了对方也没办法，只能自认倒霉，甚至没法跟别人说。谁会跟朋友诉苦说自己在暗网上雇凶杀人结果被骗了？相比起来冒着巨大风险的真去做违法生意，这种骗局赚钱轻而易举还没风险。</p>
 <p>互联网上存在不存在真正的犯罪交易？当然存在。但这些交易一般在普通人可以访问的互联网上，在各种论坛，SNS 都存在，通常用各种暗号交易，就和他们在现实世界中的做法一样。很多媒体报道过伊斯兰国如何招募圣战分子和进行宣传战，他们最常用也是最有效的平台，是 Facebook、Twitter、Whatsapp 和Telegram 的群组，以及制作各种虚假内容网页等着被 Google 检索到骗人上钩。俄罗斯干扰各国政治靠什么？靠 Twitter 假帐号、Facebook 投广告和水军。犯罪活动也需要客户和目标，要到人最多的地方才容易进行。网络犯罪最常用的平台，肯定是普通人用的最多的那些，而不是暗网这种小众应用。</p>
 <p>就算是各大媒体在 Tor 洋葱网络上提供的爆料投件箱，实际上也没收到过什么重要线索。美国各大媒体收到的重量级匿名爆料，基本上都是有人悄悄把一个大信封扔进某位著名记者的邮箱里面，是真实世界的实体邮箱，不是网上的邮箱。对于普通人，带上个棒球帽换一件衣服，把信封扔到一个信箱里面，比在网上匿名简单多了。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-1.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/12/0-1.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/12/0-1.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2017/12/0-1.jpeg"></p>
 <p>（图：华尔街日报 WSJ 网站给出的“匿名提供信息方式”，第一个渠道就是传统邮件，对普通人来说这个方式最可靠。第三个才是通过 Tor 洋葱网络投递。）</p>
 <p>对于非法内容和交易，在暗网上交易往往不如利用各国司法制度的差异。比如盗版一般在俄罗斯交易，因为那里最宽松。用来下载盗版电影的服务，一般在北欧或者瑞士，因为那里的法律对隐私保护更严格，法律不要求服务商保留访问日志。北美近年来最严重的毒品危机，芬太尼类药物的泛滥，是通过电话向中国的小化工厂订购，货物通过邮政服务进入北美，因为在中国这只是普通化工品… 一些在中国合法的生意，在美国不合法，反之亦然，这些方法都是长期存在、稳定可靠又易于使用。</p>
 <p>解释完了这些概念，就可以理解暗网和暗网上犯罪的关系了。暗网规模很大，但这个暗并不是“暗无天日”的意思，也不是为了犯罪行为创建的。深网很深，但这个深是针对搜索引擎的深，不是对普通人的“深无底限”的意思。Dark web 包含了各种服务，其中有一些确实是犯罪行为，但是比例和真实世界的犯罪比例哪个更高也很难说。我们的真实世界也有犯罪，总不能因此就把所有人都关进监狱，而且，就算是监狱里也存在暴力行为和非法交易。在未来某一天给每个人脑子里面装一块芯片之前，犯罪无法禁绝，自然也没法苛求暗网或者互联网消灭犯罪。</p>
@@ -838,7 +1155,7 @@ s.parentNode.insertBefore(hm, s);
         <p>《王者荣耀》又上了热搜，这次是被人民日报怼上去的。</p>
 <p>人民日报微博发布了一篇转自光明日报的文章，文章标题为“荆轲是女的？《王者荣耀》能让小学生学好历史？”。这条微博引起来上万网友的讨论，阅读量超过了 270 万。</p>
 <p>人民日报为了小学生玩《王者荣耀》操心这份心也是有原因的。据腾讯此前公布的信息，《王者荣耀》日活跃已经突破了 5000 万。爱范儿（微信 ID：ifanr）也曾经在这篇文章中提到，玩《王者荣耀》的小学生实在是太多了。而腾讯浏览指数平台上的《王者荣耀》玩家年龄分布显示，11~20 岁的用户比例高达 54%。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/xxxxx.jpg" alt="（图自：腾讯浏览指数）"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/xxxxx.jpg" alt="（图自：腾讯浏览指数）"></p>
 <h3 id="人民日报说了啥？"><a href="#人民日报说了啥？" class="headerlink" title="人民日报说了啥？"></a>人民日报说了啥？</h3><p>这篇文章中有观点指出，《王者荣耀》角色都取自中国历史和传说中的人物，可游戏中从形象到内容都与历史、传说完全不符合，颠覆了传统的记忆。 文章还引用了浙江大学人文学院教授盘剑的评论：</p>
 <blockquote>
 <p>无论怎样重新解读历史，都不能改变历史已经留存下来的真面貌；都不能改变历史发展已经作出来的结论；都不能改变已经由历史凝集的民族情感，不能让价值发生倾斜以至于崩坏。“说得重一些，随意涂抹和戏说历史，就相当于‘抛弃历史文化传统’，‘割断民族文化血脉’，让我们的文化发展‘迷失方向和目标’”。</p>
@@ -866,9 +1183,9 @@ s.parentNode.insertBefore(hm, s);
 <blockquote>
 <p>比如高渐离这个形象。他是战国末燕人，擅长击筑。在《王者荣耀》的设定中，高渐离使用的武器是一把吉他，虽然这并不完全与历史一致，但能让学生们记住他是一个会弹奏乐器的人也未尝不是一件好事。很多学生因为对游戏感兴趣，所以去查阅历史资料，了解真正的历史，这是游戏里的功劳。</p>
 </blockquote>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/gaojianli.jpg" alt="（《王者荣耀》中的高渐离，是一个手持吉他的摇滚歌手）"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/gaojianli.jpg" alt="（《王者荣耀》中的高渐离，是一个手持吉他的摇滚歌手）"></p>
 <p>W 老师能感觉到腾讯在设计《王者荣耀》英雄人物和技能的时候，会考虑到角色本身在历史上的某些特点。以“李白”举例，他在王者荣耀中是使用一柄剑的剑客。历史上的李白有“诗仙”的称号，但同时，根据史料的记载，李白“喜纵横术，击剑，为任侠”。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/libai.jpg" alt="（李白手持长剑，腰间挂着酒壶）"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/libai.jpg" alt="（李白手持长剑，腰间挂着酒壶）"></p>
 <p>虽然对《王者荣耀》没有那么抗拒了，但 W 老师还是坦白说到，有些设定她很不喜欢：</p>
 <blockquote>
 <p>《王者荣耀》中墨子太像是一个战士了，而墨子提倡的是非攻兼爱，他是一个和平主义者呀。</p>
@@ -883,7 +1200,7 @@ s.parentNode.insertBefore(hm, s);
 <blockquote>
 <p>该管。</p>
 </blockquote>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/mam.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/mam.jpg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/mam.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2017/03/mam.jpg"></p>
 <p>家长应该认识到， 自制力对于成年人来说都是一件很困难的事，更别说小孩子了。因此老师们不支持家长在玩游戏这件事情上太过放任孩子。在一个县城任教的 L 老师给他的小孩制定了严格的游戏时间表，其中包括以下要素：</p>
 <ul>
 <li>周一到周五，课后日常游戏时间；</li>
@@ -982,18 +1299,18 @@ s.parentNode.insertBefore(hm, s);
     <div class="article-entry" itemprop="articleBody">
       
         <p>不过你是不是老司机，跑的是秋明山还是白云山，轮胎都是重要的东西。出行之前检查一下轮胎，这都是司机们必备科目。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/DSC_0081.jpg" alt=""></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/DSC_0081.jpg" alt=""></p>
 <p>但对于新的驾驶者来说，要真正做好检查轮胎的工作并不容易。他们可能会因经验不足而忽略某些问题，为后续的驾驶带来困扰。</p>
 <p>为此，通过在轮胎上植入传感器来做实时监测，这也算是一个不错的解决方案。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/1488959305-gomme-smart-pirelli.jpg" alt=""></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/1488959305-gomme-smart-pirelli.jpg" alt=""></p>
 <p>轮胎制造商 Pirelli 倍耐力开发了一个新的智能轮胎平台 Connesso。这个平台主要是通过在轮胎中加入传感器等电子元件来记录数据，并通过 app 向驾驶者传达信息。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/Pirelli-Connesso-White-version.jpg" alt=""></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/Pirelli-Connesso-White-version.jpg" alt=""></p>
 <p>根据 SlashGear 的报道，Pirelli 倍耐力的 Connesso 其实更像是一个轮胎配件。他们会在轮胎内侧加入相应的传感器组件，这些组件能够在汽车行驶过程中记录行驶的公里数、轮胎温度、压力、磨损量以及轮胎内气压等等。这些数据会传送到倍耐力的云服务 Pirelli Cloud 当中，然后再通过 app 反馈到驾驶者处。</p>
 <p>倍耐力表示，Connesso 组件支持数据记录和联网传输的功能，但模组只是很小的一块，重量也只有几克。在一般情况下，Connesso 不会影响汽车的出行状态。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/tb22652-copyright-guido-ten-brink-sb-medien-1321499191197901243.jpg" alt="（插图来自：Moto-Talk）"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/tb22652-copyright-guido-ten-brink-sb-medien-1321499191197901243.jpg" alt="（插图来自：Moto-Talk）"></p>
 <p>除此之外，Connesso 对应的 app 还附带消息提醒和警报功能。当轮胎内部的气压低于标准范围，或者是轮胎磨损量到达一定程度，app 会像用户发出提示。同时，它也会引导你到附近的轮胎供应商处更换轮胎，也能够在 app 上直接完成服务预约工作。</p>
 <p>对于那些刚刚上路、经验不足的司机来说，轮胎监控是一个重要的功能。虽然他们不需要像赛车手那样时刻监控轮胎状况，行车时要用驾驶行为来控制轮胎分配。但这个产品至少能够减轻他们的检查压力，从而提升驾驶安全。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2017/03/cq5dam.web_.1280.1280.jpg" alt="（插图来自：Quattroruote）"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2017/03/cq5dam.web_.1280.1280.jpg" alt="（插图来自：Quattroruote）"></p>
 <p>这个组件将会在今年夏天正式推出。届时，倍耐力的 Winter Sottozero 和 P Zero 这两个高端定位系列将会搭载 Connesso 组件，在欧洲市场发售。</p>
 
       
@@ -1076,7 +1393,7 @@ s.parentNode.insertBefore(hm, s);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/Poker-Texas-Hold-Em-1-1024x640.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/Poker-Texas-Hold-Em-1-1024x640.jpg"></p>
+        <p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/Poker-Texas-Hold-Em-1-1024x640.jpg" alt="http://s3.ifanr.com/wp-content/uploads/2016/10/Poker-Texas-Hold-Em-1-1024x640.jpg"></p>
 <blockquote>
 <p>作者：Rafe Furst 翻译：ONES Piece 翻译计划 许昕，原文标题为《风险投资与大数法则》。</p>
 <p>译者按：早期投资人通过投资获得高额回报是因为他实力过人，还风险投资与是仅仅是因为运气好？德州扑克和早期投资究竟有什么相似之处？</p>
@@ -1092,16 +1409,16 @@ s.parentNode.insertBefore(hm, s);
 </ul>
 <p>所以 VC 们到底是不是真的在早期投资方面拥有过人的实力呢，还是他们也就仅仅是运气好而已？</p>
 <p>这个问题已经在职业德州扑克圈被提起过，因为在这个圈子里技术和运气也同样很容易被混淆。每年，成千上万的玩家参加世界扑克大赛的活动，目标都是赢取那个令人垂涎的冠军金手链。这儿有 2003 年世界扑克大赛所举办的 36 个活动中所有赢家的名单：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-e5cd0d3f64b4fd1c.png" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-e5cd0d3f64b4fd1c.png"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-e5cd0d3f64b4fd1c.png" alt="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-e5cd0d3f64b4fd1c.png"></p>
 <p>可以注意到，2003 年中有 6 个超级巨星多次在活动中获得冠军。所以对于这个成千上万玩家竞争 36 个金手链的事件来说，一个玩家同年能获得超过一次活动冠军的几率是多少呢？结果好像还不错：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-9b5f1f48b50d0a2c.png" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-9b5f1f48b50d0a2c.png"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-9b5f1f48b50d0a2c.png" alt="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-9b5f1f48b50d0a2c.png"></p>
 <p>显然，我特地挑选了 2003 年的结果来辅佐我的观点。但是值得注意的是，每当一年中拥有超过 25 场比赛时，至少会有一个玩家获得超过一次比赛冠军。</p>
 <p>这张图片可以更好地阐述多次冠军人数和比赛数之间的关系：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-e185513a95ff25f6.png" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-e185513a95ff25f6.png"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-e185513a95ff25f6.png" alt="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-e185513a95ff25f6.png"></p>
 <p>换句话说，多次获得冠军是一个统计学中人造的概念，通俗点说就是运气。当然，技术是否高超也是一个玩家能否在一年中获得多次冠军的一个重要因素。但是你也同样会发现如果想挑选一些小体量数据来证明 “技术决定成败” 这个假说其实十分容易。</p>
 <p>在扑克中，我们运用大量统计学概念：预期值（EV）是一个用来代表技术的词，波动是用来代表运气的词。根据大数原则，你扑克打得时间越长，那么波动就会变得越来越小，同时你扑克的结果（投资的回报）会趋近于你的预期值。</p>
 <p>然我们来看看这在图中怎么从左（短线）到右（长线）变化：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-bf2ed721cad7c1b2.png" alt="Y 轴＝结果，X 轴＝时间"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-bf2ed721cad7c1b2.png" alt="Y 轴＝结果，X 轴＝时间"></p>
 <p>在那些运气是技术的一大部分的游戏中——例如德州扑克和风险投资——长线的结果总是会趋向玩家（投资人）真实的技术实力，而在短线中，运气决定了一切。</p>
 <p>怪诞行为学鼻祖 Steven Levitt，在测量了运气与技术在德州扑克中的关系后，总结道：“那些在游戏前就被鉴定为高手的玩家平均比一般玩家多获得 30% 左右的投资回报。” 当然，这里面的关键是我们在游戏前鉴定出谁是高手。</p>
 <p>目前还没人能为风险投资行业做类似的分析，主要原因还是 VC 们一般打死也不会轻易放出自己的投资回报数据（你猜为啥？）。</p>
@@ -1111,7 +1428,7 @@ s.parentNode.insertBefore(hm, s);
 <li>当某些 VC 可能比其他 VC 更善于获得更高的回报时，他们的强项其实不是甄别独角兽的能力。</li>
 </ul>
 <p>对于第一个观点，我们已经在前面的文章中了解到了一些。然而为了更好地阐述这个理论，我引用了一份数据，来自 Right Side Capital 的 Kevin Dick 的统计：</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-1e45e778a19a63ba.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/1428671-1e45e778a19a63ba.jpeg"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-1e45e778a19a63ba.jpeg" alt="http://s3.ifanr.com/wp-content/uploads/2016/10/1428671-1e45e778a19a63ba.jpeg"></p>
 <p>根据这个分析，为了能有 85% 的几率能达到基金的预期值（回报），一支基金必须投资超过 300 家初创公司。换句话说，如果你是一个一般的 VC，那么你一年大概能投资 10 个公司，因此你需要 30 年才能达到我们分析中所谓的长线。</p>
 <p>在那之前，你永远不知道你的投资回报与你的投资能力是不是正相关，因为很有可能只是运气好坏的区别。</p>
 <p>Chris Sacca 因为管理了一支可能是世界历史上回报最高的单一基金而被大家周知。这支基金投资了 Twitter、Uber 和 Stripe 等等巨大回报公司。很显然，现在每出现一个独角兽就会有几个看起来有先见之明的投资人很早入场。同时没过多久就会有几个投资人同时投资了多个独角兽，这和前面的扑克大赛一模一样。</p>
@@ -1121,7 +1438,7 @@ s.parentNode.insertBefore(hm, s);
 </blockquote>
 <p>首先，我要提醒你的是，他在投资那些独角兽的时候并没有那么著名。那时候他只是一个无名小卒，十分激进，但想必应拥有过人之处。最后，没有人能在种子阶段看出谁是最后的赢家。</p>
 <p>我曾经在 2002 年参加了世界扑克大赛，同年 Phil Ivey 因为在 35 场比赛中获得 3 次冠军而成为超级巨星。在这一年之前，他只是一个高手而已，就像那帮子年轻职业玩家一样。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/10/venture-capital-trends-state-industry.jpg" alt="图片来源：entrepreneur"></p>
+<p><img src="http://s3.ifanr.com/wp-content/uploads/2016/10/venture-capital-trends-state-industry.jpg" alt="图片来源：entrepreneur"></p>
 <p>然而在那之后，他就成为了一个几乎不可战胜的巨星。是因为他的实力突然提高了这么多，还是因为其他人开始看到他有些恐惧，使得他更容易看透其他玩家的弱点？</p>
 <p>在我看来，德州扑克和 VC 这两个东西都有热手效应，即成功会带来更多的成功。</p>
 <p>在 VC 界，如果你幸运地投资了一个独角兽，那么首先你会突然拥有足够的钱来进行更多的投资（那么你投中独角兽的机会增多了），同时你也有了更多项目资源，最后基本上你想投资的项目们都想让你能入股。</p>
@@ -1204,268 +1521,6 @@ s.parentNode.insertBefore(hm, s);
 
 
   
-    <article id="post-全亚洲市值最高的腾讯，宣布要做4000个公益项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/%E5%85%A8%E4%BA%9A%E6%B4%B2%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98%E7%9A%84%E8%85%BE%E8%AE%AF%EF%BC%8C%E5%AE%A3%E5%B8%83%E8%A6%81%E5%81%9A4000%E4%B8%AA%E5%85%AC%E7%9B%8A%E9%A1%B9%E7%9B%AE/">全亚洲市值最高的腾讯，宣布要做4000个公益项目</a>
-    </h1>
-  
-
-        
-        <a href="/%E5%85%A8%E4%BA%9A%E6%B4%B2%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98%E7%9A%84%E8%85%BE%E8%AE%AF%EF%BC%8C%E5%AE%A3%E5%B8%83%E8%A6%81%E5%81%9A4000%E4%B8%AA%E5%85%AC%E7%9B%8A%E9%A1%B9%E7%9B%AE/" class="archive-article-date">
-  	<time datetime="2016-09-06T10:21:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/23135600wsym.jpg!1120" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/23135600wsym.jpg!1120"></p>
-<p>今天下午，腾讯市值成为亚洲第一的消息传遍了网络。这家年轻的互联网巨头股价今天涨幅达 4.16%，市值达到了 1.99 万亿港元，比韩国三星电子还要高 10%。</p>
-<p>不过，腾讯似乎并没有打算对自己市值一事对外大加宣传。在超高市值定格的那一刻，腾讯正在北京举办另一场重要发布会，宣布要继续做一件好事。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/IMG_2376.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/IMG_2376.jpg"></p>
-<p>今年是 99 公益日举办的第二年，这项活动由腾讯公益发起，联合了中国互联网发展基金会为代表的社会公益组织、知名人士、企业等群体。国家社会组织管理局、中央网信办网络社会工作局在其中扮演了指导的角色。</p>
-<h3 id="总配捐额近-4-亿元，99-公益日的数据成绩如何？"><a href="#总配捐额近-4-亿元，99-公益日的数据成绩如何？" class="headerlink" title="总配捐额近 4 亿元，99 公益日的数据成绩如何？"></a>总配捐额近 4 亿元，99 公益日的数据成绩如何？</h3><p>在发布会上，腾讯公布了 2015 年 99 公益日的一些数据：</p>
-<ul>
-<li>3 天时间吸引 205 万网友捐款 1.279 亿元；</li>
-<li>腾讯基金会配捐额 9999 万元；</li>
-<li>截至 2016 年 8 月，腾讯公益平台注册公益组织超过 3000 个，发起约 1.5 万个公益项目，捐款人次达 6600 万；</li>
-<li>截至 2016 年 8 月，超过 7500 万人次网民通过腾讯公益捐款超过 11.3 亿元。</li>
-</ul>
-<p>今年第二届 99 公益日中，腾讯的配捐金额提高至 1.99 亿元，总配捐资金池也提高至近 4 亿元。而今年的第二届 99 公益日启动之时，逾 120 家公募机构将开展近 4000 个公益项目。</p>
-<p>说到这里，大家可能还对“配捐额”这个概念不太了解。配捐额有一个比例作为前提，如果这个比例是 1:1 的话，就意味着网友通过腾讯公益平台捐款 1 元，腾讯就要自掏钱包捐 1 块钱。</p>
-<p>不过在这项活动中，参与捐款的企业不止腾讯。腾讯基金会秘书长翟红新透露目前分众传媒、滴滴出行、云南白药等公司都已经发起了 1:1 配捐的活动。</p>
-<p>至于大家关心的款项监督问题，腾讯向爱范儿（微信号：ifanr）表示所有在腾讯公益平台募捐的项目都会通过腾讯公益官方网站随时公示项目进展。</p>
-<h3 id="社交与移动支付会成为民间公益的爆发点？"><a href="#社交与移动支付会成为民间公益的爆发点？" class="headerlink" title="社交与移动支付会成为民间公益的爆发点？"></a>社交与移动支付会成为民间公益的爆发点？</h3><p>99 公益日的理念非常宏大，实际可能实现的捐款金额也很可观，但是与传统的募捐模式相比，腾讯倡导的这种理念反倒会在降低单个捐款人捐助金额的同时，为募捐项目筹得更多的金钱。</p>
-<p>腾讯方面向爱范儿（微信号：ifanr）简单解释了自己的定位：</p>
-<blockquote>
-<p>腾讯的角色可以理解成做连接，利用社交网络的力量连接爱心个人、企业、公益组织和需要帮助的项目。</p>
-</blockquote>
-<p>不难理解，腾讯其实是利用了自家庞大且渗透率极高的社交网络、移动支付服务以及企业的社会影响力，联合其他捐赠群体一起来以“滚雪球”的形式做公益。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/chunlei.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/chunlei.jpeg"></p>
-<p>在腾讯公益官方网站上，爱范儿（微信号：ifanr）查阅了由中国少年儿童基金会发起的“春蕾计划一对一”项目，这个项目的目标是帮助贫困地区失辍学女童继续学业，改善办学条件。儿基会为这个项目设定了 50 元、100 元、200 元三个固定档次，捐助者也可以自行设定捐款金额。所有的捐款都通过腾讯财付通或微信支付缴纳。</p>
-<p>打开微信“钱包”，也可以发现腾讯公益的心形图标被放置在了最显眼的“腾讯服务”一栏下方。移动支付的普及让公益募捐更加方便，而在中国，能有如此影响力的移动支付平台就只有微信支付和支付宝了，支付宝同样提供了名为“爱心捐赠”的公益平台。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/FullSizeRender-6.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/FullSizeRender-6.jpg"></p>
-<p>那社交网络又在公益募捐中发挥了什么作用？爱范儿（微信号：ifanr）认为我们不妨从“企业社交”和“个人社交”两个角度来分析这个问题。</p>
-<p>企业社交可以直接提高整个公益项目的社会影响力乃至配捐资金池。没有一个企业不想给自己打造一个良好的企业形象，公益活动就是一个非常合适的入口。凭借腾讯及其强势的广告业务，想要通过网络“抱团”吸引这些企业加入自己的公益生态中并非难事。</p>
-<p>腾讯在发布会上透露，中国每 10 元捐赠，有 7-8 元来自企业。企业的加入使得 99 公益日资金池增加了一倍，还推出了各种形式的公益活动：</p>
-<ul>
-<li>滴滴出行捐赠“数百万善款”；</li>
-<li>顺丰推出 1000 万个公益文件封，扫描即可捐赠（同样多亏了便捷的移动支付）；</li>
-<li>肯德基联合腾讯公益推出了星光众筹义卖活动；</li>
-</ul>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/WechatIMG4.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/WechatIMG4.jpeg"></p>
-<p>99 公益日在社会个人间的传播则离不开腾讯自己的产品和服务。微信运动在 2015 年上线了“捐赠步数”的功能，只要每天走够 10000 步，就可以将步数转化为具体的金额捐献给有需要的公益项目，金额由对应的企业支付。</p>
-<p>除此之外，腾讯还将公益项目的宣传植入了 QQ 空间、腾讯新闻、手机管家等产品里，吸引用户参与，并在社交网络中传播。</p>
-<p>有了网络与便捷的支付渠道，腾讯无需亲自上山下乡也可以发动合作伙伴和用户一起做公益。</p>
-<h3 id="资本玩累了，不妨来做公益？"><a href="#资本玩累了，不妨来做公益？" class="headerlink" title="资本玩累了，不妨来做公益？"></a>资本玩累了，不妨来做公益？</h3><p>几乎所有互联网公司都起源于天使投资和风险投资，与投资者相生相伴也让这些公司在资本运作上玩得非常溜。</p>
-<p>不过，当年在资本市场存活下来的企业不少都逐渐成长壮大，对资本的依赖性日渐降低，其中有些公司、团队依旧离不开股权分配、流量变现的策略制定和人心纠葛上。</p>
-<p>资本运作对于大公司、上市公司而言不可或缺，但既然企业规模已经发展壮大了，也不妨考虑在实现足够的盈利之后，划拨一部分钱，或者调动自己掌握的网络资源，为社会公益做一些贡献，算是给喧嚣的互联网行业带来一股清流。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">社交网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">公益</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">微信支付</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">社会责任</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">腾讯</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/%E5%85%A8%E4%BA%9A%E6%B4%B2%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98%E7%9A%84%E8%85%BE%E8%AE%AF%EF%BC%8C%E5%AE%A3%E5%B8%83%E8%A6%81%E5%81%9A4000%E4%B8%AA%E5%85%AC%E7%9B%8A%E9%A1%B9%E7%9B%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-58同城“996”风波受业绩所迫，加班越多真的产出越多？" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/58%E5%90%8C%E5%9F%8E%E2%80%9C996%E2%80%9D%E9%A3%8E%E6%B3%A2%E5%8F%97%E4%B8%9A%E7%BB%A9%E6%89%80%E8%BF%AB%EF%BC%8C%E5%8A%A0%E7%8F%AD%E8%B6%8A%E5%A4%9A%E7%9C%9F%E7%9A%84%E4%BA%A7%E5%87%BA%E8%B6%8A%E5%A4%9A%EF%BC%9F/">58同城“996”风波受业绩所迫，加班越多真的产出越多？</a>
-    </h1>
-  
-
-        
-        <a href="/58%E5%90%8C%E5%9F%8E%E2%80%9C996%E2%80%9D%E9%A3%8E%E6%B3%A2%E5%8F%97%E4%B8%9A%E7%BB%A9%E6%89%80%E8%BF%AB%EF%BC%8C%E5%8A%A0%E7%8F%AD%E8%B6%8A%E5%A4%9A%E7%9C%9F%E7%9A%84%E4%BA%A7%E5%87%BA%E8%B6%8A%E5%A4%9A%EF%BC%9F/" class="archive-article-date">
-  	<time datetime="2016-09-04T09:18:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/385584085_1a90e84390_o.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/385584085_1a90e84390_o.jpg"></p>
-<blockquote>
-<p>996，说明下吧。<br>我女朋在 58 上班 7 点出门 10 点到家，好心疼。<br>刚拿到 Offer，我觉得你们这样子我不去了。<br>……</p>
-</blockquote>
-<p>以上这些文字摘自于 58 同城 CEO 姚劲波一条微博的评论区，虽然无法确认这些评论者是否真的与 58 同城有劳动关系，但多达 2784 条评论足以展示了 58 同城的窘况。</p>
-<p>从 9 月 1 日起，陆续有 58 同城员工对外爆料称一些地方分公司开始实行“996 工作制”。“996 工作制”意思为每天早上 9 点上班，晚上 9 点下班，每周工作日增加至 6 天。这些员工还表示公司不针对“996 工作制”提供任何餐饮、交通补贴，也不会发放加班费。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/yaojinbolive.jpeg" alt="h连姚劲波参与的视频直播也未能幸免"></p>
-<p>不过 58 同城内部并没有通过文字形式颁布“996 工作制”详细安排，爆料员工表示这些通知都是通过公司领导口头下达的，给后续求证留下了很大的困难。</p>
-<h3 id="“神奇的网站”日子不好过，员工太多钱太少？"><a href="#“神奇的网站”日子不好过，员工太多钱太少？" class="headerlink" title="“神奇的网站”日子不好过，员工太多钱太少？"></a>“神奇的网站”日子不好过，员工太多钱太少？</h3><p>在过去这一两年里，中国互联网行业经历了多次比较重大的公司合并潮，58 同城也“有幸”参与其中。</p>
-<p>2015 年 4 月，58 同城宣布与分类信息网站赶集网合并，合并后 58 同城将持有赶集网 43.2% 的股份，两家公司将保持双方品牌独立性，网站及团队均继续保持独立发展与运营。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/510ab35a8b52d13.jpg" alt="左为杨浩涌，右为姚劲波，图片来自：凤凰科技"></p>
-<p>合并后赶集网创始人杨浩涌与 58 同城创始人姚劲波担任新公司联席 CEO，但当新公司完成了瓜子二手车直卖网的分拆后，杨浩涌“出局”卸任 58 赶集集团 CEO 一职，出任瓜子二手车 CEO。这也意味着 58 同城与赶集网的合并实际上成为了一场“吞并”，有报告指出合并之后的 58 赶集集团占据了国内生活服务行业 81.6% 的市场份额。</p>
-<blockquote>
-<p>接受媒体采访时，姚劲波笑言杨浩涌为“打不死的小强”：</p>
-</blockquote>
-<p>对方像“小强”一样，烦恼了我十年，怎么都打不死。<br>不过与赶集网的业务重合是合并后新公司的一个老大难问题。截止至发稿时，58 同城与赶集网首页的信息分类都有（但不局限于）以下几种：</p>
-<ul>
-<li>房地产；</li>
-<li>二手市场；</li>
-<li>二手车；</li>
-<li>招聘；</li>
-<li>本地生活服务；</li>
-</ul>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/58.jpeg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/58.jpeg"></p>
-<p>除了赶集网之外，58 同城还陆陆续续收购了中华英才网和安居客。这些公司均与 58 同城现有业务产生了或多或少的重合。</p>
-<p>毫无疑问，58 同城通过合并消灭了自己最大的竞争对手，但合并归合并，两家公司的实体仍然存在，员工依旧按时上下班做好自己的本职工作，企业规模的暴涨给 58 同城的管理埋下了不少危机。58 同城在 2015 年底财报中披露公司拥有员工数量多达 20705 名，还有消息称合并后员工数量在巅峰时甚至达到了 27000 名。</p>
-<p>对于 58 同城而言，一次大规模裁员恐怕是难以避免了，可是走正常流程的裁员意味着 58 同城需要向被裁撤的员工提供赔偿。所以也有员工和行业人士认为，“996 工作制”的出台就是变相裁员，促使员工主动辞职。</p>
-<p>作为一家颇有影响力的互联网公司，也是分类信息领域的领头羊，58 同城真的是迫于成本才出此下策的吗？</p>
-<p>2016 年 8 月 18 日，58 同城发布最新一季未经审计的财报，以非美国会计师准则（non-GAAP）计算，58 同城第二季度的净利润为 2170 万美元，在连续 5 个季度亏损后首度扭亏为盈。</p>
-<p>连续 5 个季度亏损，对于以 O2O 和信息分类为重要业务的 58 同城来说不是好消息，毕竟 O2O 需要通过直接或间接的形式雇佣大量基层从业者，还要不断通过用户补贴吸引用户持续“关照”自己，信息分类业务也需要处理好平台与中间商的关系。今年 7 月份就有温州地区房地产中介质疑 58 同城通过流量造假变相加价，引发大规模抗议。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/ImageStore_20160722081521.jpg" alt="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/ImageStore_20160722081521.jpg"></p>
-<p>虽然并没有明确消息表明 58 同城要借“996 工作制”裁员，但以 58 同城现在的经营状况来看，大规模裁员势必会对公司财务施加巨大的压力。</p>
-<h3 id="失去人心的加班，放弃也罢"><a href="#失去人心的加班，放弃也罢" class="headerlink" title="失去人心的加班，放弃也罢"></a>失去人心的加班，放弃也罢</h3><p>因为加班而引起员工抗议，有类似经历的科技公司还真不少。</p>
-<p>2015 年 10 月，硅谷“钢铁侠”Elon Musk 创办的 SpaceX 遭到前任员工投诉，指控公司拒绝支付加班费，也没有按法律要求提供就餐休息时间。此举违反了加州劳动法的规定：</p>
-<blockquote>
-<p>雇主需要为工作超 5 小时的员工提供 30 分钟的就餐休息时间，如果超过 10 小时，就需要提供第二次就餐休息时间。</p>
-</blockquote>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/Dragon_capsule_and_SpaceX_employees_16491695667.jpg" alt="图片来自：维基百科"></p>
-<p>就在同一周，另一位 SpaceX 前员工 Stan Saporito 因为相近的理由要求公司赔偿 500 万美元。很明显，Stan Saporito 喜欢的并不是 Elon Musk 那种每周可以工作超过 100 小时的工作狂生活。Elon Musk 个人传记《硅谷钢铁侠》曾多次提及 Elon Musk 暗示员工应该花更多时间工作。</p>
-<p>在科技行业里，加班现象很常见。即使是阿里、腾讯、Google 这个层级的公司，仍然有不少在周末、深夜坚守工作岗位的员工，只不过因为大公司管理相对规范，有工会坐阵，而且人员分工细致，所以大公司一般并不需要通过加班加点赶工。</p>
-<p><img src="http://ifanr-cdn.b0.upaiyun.com/wp-content/uploads/2016/09/ae0c0bf187a841daa18ba9df114e0d7f.jpg" alt="双十一当晚加班的阿里员工，图片来自：驱动之家"></p>
-<p>在海内外，加班文化主要还是存在于一些初创公司里，比如上文提到的 SpaceX。但哪怕加班现象再怎么普遍，由公司高层部署的强制性加班安排还真是罕见。“996 工作制”爆发之后，58 同城发布了官方回应进行澄清：</p>
-<blockquote>
-<p>对于互联网公司来说，每年的 9、10 月份都是平台业务流量的高峰阶段；而 58 作为一个生活服务平台，所涉及的房产、招聘等多个领域在这个阶段都是季节性的业务量高峰；为了应对这种业务高峰阶段，更好的服务集团客户及平台用户，每年的 9、10 月份都会有常规性的动员。<br>集团并不会强制要求所有人一定要按照“996”的规定来安排工作。集团倡导各部门以工作目标为核心，不断提升管理能力和工作效率，合理安排工作。而不是机械性的靠延长工作时间，“996”的强行规定来管理员工。</p>
-</blockquote>
-<p>所以，我们也不排除“996 工作制”是以讹传讹后出现的舆论偏差，非当事人不适合急于对此事下定论。</p>
-<p>“996 工作制”算是给快速发展的互联网公司们上了一课：员工动员是有必要的，但如果动员方向错了，没有让员工得到等同于自己所创造价值的回报，那就会失去了人心。而失去了人心的加班，也难以为公司产出更多业绩，甚至会让公司成为众矢之的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">58 同城</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">996 工作制</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">互联网行业</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">加班</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/58%E5%90%8C%E5%9F%8E%E2%80%9C996%E2%80%9D%E9%A3%8E%E6%B3%A2%E5%8F%97%E4%B8%9A%E7%BB%A9%E6%89%80%E8%BF%AB%EF%BC%8C%E5%8A%A0%E7%8F%AD%E8%B6%8A%E5%A4%9A%E7%9C%9F%E7%9A%84%E4%BA%A7%E5%87%BA%E8%B6%8A%E5%A4%9A%EF%BC%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1480,7 +1535,7 @@ s.parentNode.insertBefore(hm, s);
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 Jonah.Fu
+    		&copy; 2021 Jonah.Fu
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1620,6 +1675,14 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Jetbrains</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">idea</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LinkedIn</a>
               </li>
              
@@ -1672,15 +1735,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">sublime</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">人物</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">sublime</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">wow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">新闻</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1720,18 +1787,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Pirelli</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">轮胎</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">三星</a>
               </li>
              
@@ -1761,6 +1816,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">苹果</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Pirelli</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">轮胎</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1820,14 +1887,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">新闻</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">周星驰</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MBA</a>
               </li>
              
@@ -1844,27 +1903,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">周星驰</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Scalevo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">轮椅</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Humans</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">True Companion</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">性爱机器人</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">机器姬</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1896,6 +1943,22 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Humans</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">True Companion</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">性爱机器人</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">机器姬</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">外国人</a>
               </li>
              
@@ -1909,6 +1972,22 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">跨国社交</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">公益</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">社会责任</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1945,22 +2024,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">深网</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">公益</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">社会责任</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">腾讯</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2008,6 +2071,10 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">文档</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">教育</a>
               </li>
              
@@ -2017,10 +2084,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">移动游戏</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">文档</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2081,6 +2144,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">索尼</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">杜比</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">杜比全景声</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">杜比视界</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2160,18 +2235,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">多说</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">铁道部</a>
               </li>
              
@@ -2185,6 +2248,18 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">12306</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">GitHub</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多说</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2244,6 +2319,18 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">netflix</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">纸牌屋</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网剧</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Android 6.0</a>
               </li>
              
@@ -2300,14 +2387,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">市场研究</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">智能可穿戴</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">尬舞机</a>
               </li>
              
@@ -2332,26 +2411,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ApplePay</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Contactless</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Payment</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">移动支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">非接触式支付</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">乐视</a>
               </li>
              
@@ -2369,6 +2428,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">雷军</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">市场研究</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">智能可穿戴</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2396,35 +2463,31 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ApplePay</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Contactless</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Payment</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">移动支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">非接触式支付</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">J.Wong</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">移动</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">netflix</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">纸牌屋</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网剧</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杜比</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">杜比全景声</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">杜比视界</a>
               </li>
             
             <div class="clearfix"></div>
